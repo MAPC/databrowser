@@ -7,7 +7,7 @@ module.exports = function(environment) {
     rootURL: '/',
     locationType: 'auto',
     dataBrowserIndex: 'https://mapc-admin.carto.com/api/v2/sql?q=select%20*%20from%20table_data_browser%20where%20schemaname=\'tabular\'%20and%20active=\'Y\'',
-    dataBrowserEndpoint: 'https://mapc-admin.carto.com/api/v2/sql?q=',
+    dataBrowserEndpoint: 'https://datacommon.carto.mapc.org/api/v2/sql?q=',
     spatialJoinFields: [  { field: 'ct10_id', table: 'census_2010_tracts'}, 
                           { field: 'muni_id', table: 'ma_municipalities'}
                           // { field: 'bg10_id', table: ''} 
