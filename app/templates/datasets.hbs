@@ -91,7 +91,7 @@
           {{/unless}}
         </div>
         {{#if (not model.raw_data.errors)}}
-          {{ui-table model=(slice min max model.raw_data.rows) fields=model.raw_data.fields metadata=model.metadata.rows}}
+          {{ui-table model=(slice min max model.raw_data.rows) fields=model.raw_data.fields metadata=model.metadata}}
         {{else}}
           {{#each model.raw_data.errors as |error|}}
             <h3 class="ui icon header">

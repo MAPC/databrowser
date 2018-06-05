@@ -1,6 +1,7 @@
-import Route from '@ember/routing/route';
-import Ember from 'ember';
 import RSVP from 'rsvp';
+import { A } from '@ember/array';
+import EmberObject from '@ember/object';
+import Route from '@ember/routing/route';
 import { isAjaxError } from 'ember-ajax/errors';
 import { action } from '@ember-decorators/object';
 import { service } from '@ember-decorators/service';
@@ -25,7 +26,7 @@ export default class extends Route {
       url += ' LIMIT 50;';
     }
 
-    let meta_url = `${config.metadataHost}/tabular?table=${dataset.get('table_name')}`;
+    let meta_url = `${config.metadataHost}/tabular?tables=${dataset.get('table_name')}`;
     let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${dataset.get('table_name')} limit 50`;
     
     // models
@@ -34,16 +35,16 @@ export default class extends Route {
     }).catch(handleErrors);
 
     let metadata = this.get('ajax').request(meta_url).then(function(metadata) {
-      return metadata;
+      return metadata[dataset.get('table_name')];
     }).catch(handleErrors);
 
     let years_available = this.get('ajax').request(years_url).then(function(years) {
       if (dataset.get('hasYears')) {
         let keys = years.rows.mapBy(yearcolumn).sort();
-        let obj = keys.map((el) => { return Ember.Object.create({ year: el, selected: true }); });
+        let obj = keys.map((el) => { return EmberObject.create({ year: el, selected: true }); });
         return obj;
       } else {
-        return Ember.A([]);
+        return A([]);
       }
     }).catch(handleErrors);
 
@@ -74,7 +75,7 @@ export default class extends Route {
   @action
   willTransition() {
     let datasetsController = this.controllerFor('datasets');
-    datasetsController.set('years', Ember.A);
+    datasetsController.set('years', A);
   }
 
 }
