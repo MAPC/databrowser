@@ -1,11 +1,17 @@
+import Route from '@ember/routing/route';
 import Ember from 'ember';
 import RSVP from 'rsvp';
-import config from '../config/environment';
 import { isAjaxError } from 'ember-ajax/errors';
-import imputeSpatiality from '../utils/impute-spatiality';
+import { action } from '@ember-decorators/object';
+import { service } from '@ember-decorators/service';
+import config from 'databrowser/config/environment';
+import imputeSpatiality from 'databrowser/utils/impute-spatiality';
 
-export default Ember.Route.extend({
-  ajax: Ember.inject.service(),
+
+export default class extends Route {
+
+  @service ajax
+
   model(params) {
     let dataset = this.modelFor('application').findBy('id', params.dataset_id);
     let yearcolumn = dataset.get('yearcolumn');
@@ -19,7 +25,7 @@ export default Ember.Route.extend({
       url += ' LIMIT 50;';
     }
 
-    let meta_url = `${config.dataBrowserEndpoint}select * from meta_${dataset.get('table_name')}`;
+    let meta_url = `${config.metadataHost}/tabular?table=${dataset.get('table_name')}`;
     let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${dataset.get('table_name')} limit 50`;
     
     // models
@@ -47,9 +53,10 @@ export default Ember.Route.extend({
       metadata,
       years_available
     });
-  },
+  }
 
   afterModel(model) {
+    console.log(model.metadata);
     if (!isAjaxError(model.raw_data)) {
       let fields = model.raw_data.fields;
 
@@ -57,18 +64,20 @@ export default Ember.Route.extend({
       delete fields['the_geom_webmercator'];
       delete fields['cartodb_id'];
     }
-  },
-
-  actions: {
-    transitionTo(category) {
-      this.get('router').transitionTo('categories.sub-categories.datasets', category);
-    },
-    willTransition() {
-      let datasetsController = this.controllerFor('datasets');
-      datasetsController.set('years', Ember.A);
-    }
   }
-});
+
+  @action
+  transitionTo(category) {
+    this.get('router').transitionTo('categories.sub-categories.datasets', category);
+  }
+
+  @action
+  willTransition() {
+    let datasetsController = this.controllerFor('datasets');
+    datasetsController.set('years', Ember.A);
+  }
+
+}
 
 function handleErrors(error) {
   if(isAjaxError(error)) {

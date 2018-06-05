@@ -1,9 +1,16 @@
 import DS from 'ember-data';
-import config from '../config/environment';
+import config from 'databrowser/config/environment';
 
-export default DS.RESTAdapter.extend({
-  host: config.dataBrowserIndex,
-  urlForFindAll(id, modelName, snapshot) {
+export default class extends DS.RESTAdapter {
+
+  constructor() {
+    super();
+
+    this.host = config.dataBrowserIndex;
+  }
+
+  urlForFindAll() {
     return config.dataBrowserIndex;
   }
-});
+
+}

@@ -33,9 +33,11 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
+    ENV.metadataHost = 'http://staging.datacommon.mapc.org';
   }
 
   if (environment === 'production') {
+    ENV.metadataHost = 'http://datacommon.mapc.org';
   }
 
   if (environment === 'test') {
