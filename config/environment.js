@@ -1,9 +1,9 @@
-/* jshint node: true */
+'use strict';
 
 module.exports = function(environment) {
-  var ENV = {
-    modulePrefix: 'data-browser',
-    environment: environment,
+  let ENV = {
+    modulePrefix: 'databrowser',
+    environment,
     rootURL: '/',
     locationType: 'auto',
     dataBrowserIndex: 'https://mapc-admin.carto.com/api/v2/sql?q=select%20*%20from%20table_data_browser%20where%20schemaname=\'tabular\'%20and%20active=\'Y\'',
@@ -28,16 +28,14 @@ module.exports = function(environment) {
       // when it is created
     },
     'ember-d3': {
-      only: ['d3-collection']
-    }
+      only: ['d3-collection'],
+    },
   };
 
   if (environment === 'development') {
-    // ENV.APP.LOG_RESOLVER = true;
-    // ENV.APP.LOG_ACTIVE_GENERATION = true;
-    // ENV.APP.LOG_TRANSITIONS = true;
-    // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-    // ENV.APP.LOG_VIEW_LOOKUPS = true;
+  }
+
+  if (environment === 'production') {
   }
 
   if (environment === 'test') {
@@ -49,10 +47,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
-  }
-
-  if (environment === 'production') {
-
+    ENV.APP.autoboot = false;
   }
 
   return ENV;

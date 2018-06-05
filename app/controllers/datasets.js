@@ -40,7 +40,7 @@ export default Ember.Controller.extend({
   spatial_query(format) {
     let spatial_meta = this.get('model.raw_data.spatialMetaData');
     let tabular = this.get('model.dataset.table_name');
-    let fields = Ember.keys(this.get('model.raw_data.fields')).map((el) => { return `a.${el}` });
+    let fields = Object.keys(this.get('model.raw_data.fields')).map((el) => { return `a.${el}` });
     let where = '';
     if (this.get('model.dataset.hasYears')) {  
       let yearsSelected = this.get('model.years_available').filterBy('selected', true);
