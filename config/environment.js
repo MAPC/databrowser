@@ -6,11 +6,11 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
     locationType: 'auto',
-    dataBrowserIndex: 'https://mapc-admin.carto.com/api/v2/sql?q=select%20*%20from%20table_data_browser%20where%20schemaname=\'tabular\'%20and%20active=\'Y\'',
+    dataBrowserIndex: 'https://datacommon.carto.mapc.org/api/v2/sql?q=select%20*%20from%20table_data_browser%20where%20schemaname%3D%27tabular%27%20or%20schemaname%3D%27mapc%27%20and%20active%3D%27Y%27',
     dataBrowserEndpoint: 'https://datacommon.carto.mapc.org/api/v2/sql?q=',
-    spatialJoinFields: [  { field: 'ct10_id', table: 'census_2010_tracts'}, 
+    spatialJoinFields: [  { field: 'ct10_id', table: 'census_2010_tracts'},
                           { field: 'muni_id', table: 'ma_municipalities'}
-                          // { field: 'bg10_id', table: ''} 
+                          // { field: 'bg10_id', table: ''}
                         ],
     EmberENV: {
       FEATURES: {
