@@ -26,9 +26,16 @@ export default class extends Route {
       url += ' LIMIT 50;';
     }
 
-    let meta_url = `${config.metadataHost}/tabular?tables=${dataset.get('table_name')}`;
+    // check to see if table_data_browser entry marks it as tabular or not
+    let meta_url
+    if (dataset.get('schemaname') !== 'tabular') {
+      meta_url = `${config.metadataHost}/geospatial?tables=${dataset.get('table_name')}`;
+    } else {
+      meta_url = `${config.metadataHost}/tabular?tables=${dataset.get('table_name')}`;
+    }
+
     let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${dataset.get('table_name')} limit 50`;
-    
+
     // models
     let raw_data = this.get('ajax').request(url).then(function(raw_data) {
       return imputeSpatiality(raw_data);
@@ -57,7 +64,6 @@ export default class extends Route {
   }
 
   afterModel(model) {
-    console.log(model.metadata);
     if (!isAjaxError(model.raw_data)) {
       let fields = model.raw_data.fields;
 
