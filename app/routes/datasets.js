@@ -70,6 +70,7 @@ export default class extends Route {
       delete fields['the_geom'];
       delete fields['the_geom_webmercator'];
       delete fields['cartodb_id'];
+      delete fields['invalid_the_geom'];
     }
   }
 

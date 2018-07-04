@@ -81,8 +81,10 @@ export default Ember.Controller.extend({
 
     let reformattedColumnMetadata = columnMetadata.map(object => {
       var reformattedObject = {};
-      reformattedObject['name'] = object.Name;
-      reformattedObject['alias'] = object.AliasName;
+      if (object.AliasName) {
+        reformattedObject['name'] = object.Name;
+        reformattedObject['alias'] = object.AliasName;
+      }
       return reformattedObject;
     });
 
