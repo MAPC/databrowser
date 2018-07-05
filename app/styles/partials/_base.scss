@@ -1,5 +1,6 @@
 body {
   color: $color_font-dark;
+  font-size: $font_size-base;
   font-family: $font_family-primary;
 
   background: $color_bg-light;
@@ -29,7 +30,7 @@ body {
 }
 
 .container {
-  width: 88.5%;
+  width: 92.5%;
   max-width: 1400px;
   margin: 0 auto;
 }

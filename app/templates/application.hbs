@@ -1,16 +1,20 @@
 <header>
   <div class="container">
-    {{#link-to 'application'}}
-      Data Browser
-    {{/link-to}}
-    <div>
-      {{searchable-select content=searchables
-                          sortBy='title'
-                          on-change=(route-action 'selectDataset')
-                          cache=true
-                          prompt='Search Datasets'
-                          class='item'}}
-    </div>
+    <nav>
+      <div class="header-brand">
+        <a href="{{hostname}}">
+          <img src="/assets/images/logo.svg" alt="DataCommon Logo">
+          DataCommon
+        </a>
+      </div>
+      <ul>
+        <li>{{link-to 'Datasets' 'application'}}</li>
+        <li><a href="{{hostname}}/community-profiles">Community Profiles</a></li>
+        <li><a href="{{hostname}}/faq">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <button class="login-button">Login</button>
   </div>
 </header>
 
