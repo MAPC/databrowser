@@ -1,9 +1,9 @@
-<div class="ui fixed menu">
-  <div class="ui container">
-      {{#link-to 'application' class='item'}}
-        Data Browser
-      {{/link-to}}
-    <div class="right menu">
+<header>
+  <div>
+    {{#link-to 'application'}}
+      Data Browser
+    {{/link-to}}
+    <div>
       {{searchable-select content=searchables
                           sortBy='title'
                           on-change=(route-action 'selectDataset')
@@ -12,11 +12,11 @@
                           class='item'}}
     </div>
   </div>
-</div>
+</header>
 
-
-
-<div style="margin-top: 80px;">
+<main>
   {{outlet}}
-</div>
+</main>
 
+<footer>
+</footer>

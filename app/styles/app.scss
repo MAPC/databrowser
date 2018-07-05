@@ -4,15 +4,9 @@ body {
   background-color: #fafafa;
 }
 
-.scrollable-menus {
-}
-
-// .ui.grid>.column+.divider, .ui.grid>.row>.column+.divider {
-//     left: 50%;
-// }
-
 .divider-column {
   position: relative;
+
   padding: 0 !important;
 }
 
@@ -32,8 +26,3 @@ body {
 .Searchable-select {
   min-width: 400px;
 }
-
-.clickable {
-  cursor: pointer;
-}
-
