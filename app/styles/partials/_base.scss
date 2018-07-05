@@ -1,0 +1,29 @@
+body {
+  color: $color_font-dark;
+  font-family: $font_family-primary;
+
+  background: $color_bg-light;
+}
+
+.divider-column {
+  position: relative;
+
+  padding: 0 !important;
+}
+
+.scroll-horizontal-rotated {
+  overflow-x: auto;
+  transform:rotateX(180deg);
+  -ms-transform:rotateX(180deg); /* IE 9 */
+  -webkit-transform:rotateX(180deg); /* Safari and Chrome */
+}
+
+.cancel-rotate {
+  transform:rotateX(180deg);
+  -ms-transform:rotateX(180deg); /* IE 9 */
+  -webkit-transform:rotateX(180deg); /* Safari and Chrome */
+}
+
+.Searchable-select {
+  min-width: 400px;
+}

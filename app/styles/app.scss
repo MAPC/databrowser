@@ -1,28 +1,6 @@
+@import 'partials/all';
+
 @import "ember-searchable-select/style";
 
-body {
-  background-color: #fafafa;
-}
-
-.divider-column {
-  position: relative;
-
-  padding: 0 !important;
-}
-
-.scroll-horizontal-rotated {
-  overflow-x: auto;
-  transform:rotateX(180deg);
-  -ms-transform:rotateX(180deg); /* IE 9 */
-  -webkit-transform:rotateX(180deg); /* Safari and Chrome */
-}
-
-.cancel-rotate {
-  transform:rotateX(180deg);
-  -ms-transform:rotateX(180deg); /* IE 9 */
-  -webkit-transform:rotateX(180deg); /* Safari and Chrome */
-}
-
-.Searchable-select {
-  min-width: 400px;
-}
+@import 'components/all';
+@import 'routes/all';
