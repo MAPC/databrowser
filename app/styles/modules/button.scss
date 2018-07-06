@@ -1,10 +1,12 @@
 button {
   @extend ._gradient;
 
+  height: min-content;
+  margin: auto;
   padding: .25em .93em .5em;
   
   color: $color_font-light;
-  font-size: $font_size-medium;
+  font-size: $font_size-small;
   font-family: $font_family-primary;
   font-weight: 400;
 
