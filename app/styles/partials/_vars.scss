@@ -9,6 +9,9 @@ $color_font-light: #FFFFFF;
 $color_font-medium: #95989A;
 $color_font-dark: #1F4E46;
 
+$color_font-medium--dark: mix(black, $color_font-medium, 25);
+$color_font-dark--brand: mix($color_brand-primary, $color_font-dark, 25);
+
 $font_family-primary: 'skolar-sans-latin', Helvetica, sans-serif;
 
 $font_size-base: 14px;

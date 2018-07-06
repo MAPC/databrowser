@@ -21,3 +21,5 @@
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
+
+._gradient { background: linear-gradient(to right, $color_brand-primary, $color_brand-secondary); }

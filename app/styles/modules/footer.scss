@@ -57,6 +57,8 @@ footer {
     transition: opacity .18s;
 
     &:hover {
+      color: $color_font-light; 
+
       opacity: 1; 
       transition: opacity .18s;
     }

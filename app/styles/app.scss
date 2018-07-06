@@ -2,6 +2,9 @@
 
 @import "ember-searchable-select/style";
 
+@import 'modules/container';
+@import 'modules/button';
+@import 'modules/gradient';
 @import 'modules/header';
 @import 'modules/footer';
 
