@@ -1,12 +1,33 @@
 header {
   padding: 20px 0;
-   
-  .header-brand {
-    font-size: $font_size-large; 
 
-    img { 
-      height: 29px; 
+  nav { width: 100%;}
+
+  & > div, ul { display: inline-block; }
+
+  .header-brand {
+    font-weight: 500;
+    font-size: $font_size-large;
+
+    img {
+      height: 29px;
       width: 29px;
+    }
+  }
+
+  ul {
+    font-size: $font_size-medium;
+
+    li {
+      display: inline-block;
+
+      margin: auto 2em;
+    }
+
+    a {
+      &.active {
+        font-weight: 700;
+      }
     }
   }
 
