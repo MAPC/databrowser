@@ -1,0 +1,11 @@
+{{input value=query placeholder=placeholder}}
+
+{{#if results}}
+  <ul>
+    {{#each results as |result|}}
+      <li>
+        {{link-to result.title 'datasets' result.id}}
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}
