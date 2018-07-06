@@ -5,6 +5,53 @@
     background: $color_bg-medium;
   }
 
-  .search-bar { width: 50%; }
+  .search-bar { width: 60%; }
+
+  .category-lists {
+    &:after {
+      @extend ._pseudo; 
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+
+      width: 100%;
+      height: 50px;
+
+      background: $color_bg-medium;
+    }
+
+    .container { display: flex; }
+
+    .scrollable-menus {
+      flex: 1 0 29%; 
+
+      max-width: 29%;
+      margin-right: 2%;
+
+      background: $color_bg-light;
+
+      &:last-of-type { 
+        flex: 1 0 40%;
+        max-width: 40%;
+
+        margin-right: 0; 
+      }
+
+      h3 {
+        margin: 0;
+        padding: .5em 1.4em;
+
+        font-size: $font_size-xsmall; 
+        font-weight: 400;
+
+        border: 1px solid $color_font-medium;
+      }
+    }
+     
+    .menus-component {
+    }
+  }
 
 }

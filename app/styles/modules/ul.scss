@@ -1,7 +1,11 @@
 ul {
 
   &.styled {
-    overflow-y: scroll;
+    margin-top: 0;
+
+    border: 1px solid $color_font-medium;
+    border-top: none;
+    overflow-y: auto;
     overflow-x: hidden;
 
     li {
@@ -10,6 +14,8 @@ ul {
       background: $color_bg-light;
 
       &:nth-of-type(2n+1) { background: $color_bg-medium--light; }
+      &:first-of-type a { border-top: none; }
+      &:last-of-type a { border-bottom: none; }
     }
 
     a {

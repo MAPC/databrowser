@@ -1,13 +1,12 @@
-{{#liquid-bind model use='toUp'}}  
-  <div class="scrollable-menus">
-    <h4>{{model.firstObject.menu1}}</h4>
+<div class="scrollable-menus">
+  <h3>Subtopics</h3>
 
-    {{menus-component 
-      model=model 
+  {{#liquid-bind model use='toUp'}}  
+    {{menus-component model=model 
       groupColumn='menu2'  
       subRoute='categories.sub-categories.datasets'
     }}
-  </div>
-{{/liquid-bind}}
+  {{/liquid-bind}}
+</div>
 
 {{outlet}}

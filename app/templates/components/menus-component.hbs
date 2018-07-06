@@ -1,8 +1,11 @@
-{{#each primary as |category|}}
-  {{#link-to subRoute category.key tagName='div'}}
-    <div class="content">
-      <div class="header">{{category.key}}</div>
-      <div class="description">{{category.values.length}} datasets</div>
-    </div>    
-  {{/link-to}}
-{{/each}}
+<ul class="styled lift">
+  {{#each primary as |category|}}
+    <li>
+      {{#link-to subRoute category.key}}
+        {{category.key}}
+
+        <small>{{category.values.length}} datasets</small>
+      {{/link-to}}
+    </li>
+  {{/each}}
+</ul>
