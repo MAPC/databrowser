@@ -32,7 +32,7 @@
 
       background: $color_bg-light;
 
-      &:last-of-type { 
+      &:nth-of-type(3) { 
         flex: 1 0 40%;
         max-width: 40%;
 
