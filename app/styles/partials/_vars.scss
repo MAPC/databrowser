@@ -5,6 +5,8 @@ $color_bg-light: #FFFFFF;
 $color_bg-medium: #F5F5F5;
 $color_bg-dark: #1F4E46;
 
+$color_bg-medium--light: mix(white, $color_bg-medium, 50);
+
 $color_font-light: #FFFFFF;
 $color_font-medium: #95989A;
 $color_font-dark: #1F4E46;

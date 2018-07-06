@@ -22,4 +22,10 @@
   animation-iteration-count: infinite;
 }
 
+._pseudo {
+  content: '';
+  display: block;
+  height: 0;
+}
+
 ._gradient { background: linear-gradient(to right, $color_brand-primary, $color_brand-secondary); }
