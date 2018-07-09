@@ -1,0 +1,49 @@
+.route.datasets {
+
+  .download-links, .year-filter { display: none; }
+
+  .back-link {
+    z-index: 10;
+    top: 2px;
+
+    a {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      color: $color_brand-secondary;
+      font-size: $font_size-small;
+      font-weight: 700;
+
+      transition: color .12s;
+
+      &:hover {
+        color: $color_brand-secondary--dark;
+
+        transition: color .12s;
+      }
+    }
+  }
+
+  h2 { margin-bottom: 4px; }
+
+  .table-meta {
+    margin-top: 0;
+
+    font-size: $font_size-xsmall;
+    font-style: italic;
+
+    li {
+      display: inline-block;
+
+      &:not(:first-of-type) { margin-left: 30px; }
+    }
+
+    em { font-weight: 700; }
+  }
+
+  .table-wrapper {
+    @extend ._partial-bg;
+  }
+
+}

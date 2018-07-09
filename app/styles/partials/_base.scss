@@ -4,6 +4,19 @@ body {
   font-family: $font_family-primary;
 
   background: $color_bg-light;
+
+  & > .ember-view {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+  }
+}
+
+main {
+  flex: 1 1;
+
+  padding-bottom: 50px;
 }
 
 .divider-column {
@@ -26,3 +39,8 @@ body {
 }
 
 .lift { box-shadow: 0 2px 4px rgba(0,0,0,.14); }
+
+.page-header {
+  padding: 2rem 0;
+  background: $color_bg-medium;
+}

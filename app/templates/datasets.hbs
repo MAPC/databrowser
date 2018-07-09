@@ -1,101 +1,107 @@
 <section class="route datasets">
-  <div class="downoad-buttons">
-    {{#if model.metadata.rows}}
-      <a href={{download_link_metadata}} download={{concat model.dataset.table_name '_meta'}}>
-        meta
-      </a>
-    {{/if}}
 
-    <a href={{download_link}} download={{model.dataset.table_name}}>
-      csv
-    </a>
-
-    {{#if model.raw_data.spatialMetaData}}
-      <a href={{download_link_shapefile}} download={{model.dataset.table_name}}>
-        shapefile
-      </a>
-
-      <a href={{download_link_geojson}} download={{model.dataset.table_name}}>
-        geojson
-      </a>
-    {{/if}}
-  </div>
-
-  {{#if (gt model.raw_data.rows.length perPage)}}
-    <div class="pagination">
-      <div class="{{unless min 'disabled'}}" onclick={{action 'previous'}}>
-        previous page
-      </div>
-
-      <div>
-        Page {{page}}
-      </div>
-
-      <div class="{{if (gte max model.raw_data.rows.length) 'disabled'}}" onclick={{action 'next'}}>
-        next page
-      </div>
-    </div>
-  {{/if}}
-
-  <div>
-    <div>
-      <h5>
-        {{link-to 'Go Back' 'categories.sub-categories.datasets' model.dataset.menu1 model.dataset.menu2}}
-      </h5>
-      <h2>
-        <div class="content">
-          {{model.dataset.menu3}}
-
-          <div>
-            Database Table: {{model.dataset.schemaname}}.{{model.dataset.table_name}}<br/>
-            Source: {{model.dataset.source}}<br/>
-            {{#with (find-by 'name' 'universe' model.metadata.rows) as |universe|}}
-              Universe: {{universe.details}}
-            {{/with}}<br/>
-            {{#with (find-by 'name' 'descriptn' model.metadata.rows) as |descriptn|}}
-              Description: {{descriptn.details}}
-            {{/with}}
-          </div>
-        </div>
-      </h2>
+  <div class="page-header">
+    <div class="container back-link">
+      {{link-to '< Back' 'categories.sub-categories.datasets' model.dataset.menu1 model.dataset.menu2}}
     </div>
 
-    <div>
-      {{#if model.years_available.length}}
-        <div>
-          Select Years: 
-        </div>
-      {{/if}}
+    <div class="container tight">
+      <div class="dataset-details">
+        <h2>{{model.dataset.menu3}}</h2>
 
-      {{#each model.years_available as |year|}}
-        <a class="{{if year.selected 'blue'}}" {{action 'toggle' year}}>{{year.year}}</a>
-      {{/each}}
-    </div>
+        <ul class="table-meta">
+          <li>
+            Table: <em>{{model.dataset.table_name}}</em>
+          </li>
+          <li>
+            Source: <em>{{model.dataset.source}}</em>
+          </li>
+          {{#with (find-by 'name' 'universe' model.metadata.rows) as |universe|}}
+            <li>
+              Universe: <em>{{universe.details}}</em>
+            </li>
+          {{/with}}
+          {{#with (find-by 'name' 'descriptn' model.metadata.rows) as |descriptn|}}
+            <li>
+              Description: <em>{{descriptn.details}}</em>
+            </li>
+          {{/with}}
+        </ul>
 
-    <div class="scroll-horizontal-rotated ui raised center aligned segment">
-      <div class="cancel-rotate">
-        {{#if (not model.raw_data.errors)}}
-          {{ui-table model=(slice min max model.raw_data.rows) fields=model.raw_data.fields metadata=model.metadata}}
-        {{else}}
-          {{#each model.raw_data.errors as |error|}}
-            <h3 class="ui icon header">
-              <i class="warning sign icon"></i>
-              <div class="content">
-                Oops. {{error.title}}.
-                <div class="sub header">
-                  More detail: 
-                  {{#each error.detail.error as |errorMessage|}}
-                    {{errorMessage}}; we probably just need to sync and/or update permissions for this dataset.<br/><br/> We've been notified of the error and will work on it. If you'd like to contact us, we can be reached at <a href="mailto:data@mapc.org">data@mapc.org</a>
-                  {{/each}}
-                </div>
-              </div>
-            </h3>
+        <div class="year-filter">
+          {{#if model.years_available.length}}
+            <div>Select Years:</div>
+          {{/if}}
+
+          {{#each model.years_available as |year|}}
+            <a class="{{if year.selected 'blue'}}" {{action 'toggle' year}}>{{year.year}}</a>
           {{/each}}
+        </div>
+      </div>
+
+      <div class="download-links">
+        {{#if model.metadata.rows}}
+          {{#ui-popup content="Download Metadata" position='left center'}}
+            <a class="big circular orange ui icon button" href={{download_link_metadata}} download={{concat model.dataset.table_name '_meta'}}>
+              <i class="icon help"></i>
+            </a>
+          {{/ui-popup}}
+        {{/if}}
+        {{#ui-popup content="Download CSV" position='left center'}}
+          <a class="medium ui circular raised segment circular ui green icon button floating-menu" href={{download_link}} download={{model.dataset.table_name}}>
+            <i class="big file excel outline icon"></i>
+          </a>
+        {{/ui-popup}}
+        {{#if model.raw_data.spatialMetaData}}
+          {{#ui-popup content="Download Shapefile" position='left center'}}
+            <a class="medium ui circular raised segment circular ui blue icon button floating-menu" href={{download_link_shapefile}} download={{model.dataset.table_name}}>
+              <i class="big icon map"></i>
+            </a>
+          {{/ui-popup}}
+          {{#ui-popup content="Download Geojson" position='left center'}}
+            <a class="medium ui circular raised segment circular ui yellow icon button floating-menu" href={{download_link_geojson}} download={{model.dataset.table_name}}>
+              <i class="big icon map outline"></i>
+            </a>
+          {{/ui-popup}}
+          {{#ui-popup content="Visualize" position='left center'}}
+            <a class="medium ui circular raised segment circular ui pink icon button floating-menu" href={{download_link_visualize}} target='_blank'>
+              <i class="big icon map outline"></i>
+            </a>
+          {{/ui-popup}}
         {{/if}}
       </div>
     </div>
-    
   </div>
 
-  {{outlet}}
+  <div class="table-wrapper">
+    <div class="container tight">
+      <div class="scroll-horizontal-rotated ui lift">
+        <div class="cancel-rotate">
+          {{#if (not model.raw_data.errors)}}
+            {{ui-table
+              model=(slice min max model.raw_data.rows)
+              fields=model.raw_data.fields
+              metadata=model.metadata
+            }}
+          {{else}}
+            {{#each model.raw_data.errors as |error|}}
+              <h3 class="ui icon header">
+                <i class="warning sign icon"></i>
+                <div class="content">
+                  Oops. {{error.title}}.
+                  <div class="sub header">
+                    More detail:
+                    {{#each error.detail.error as |errorMessage|}}
+                      {{errorMessage}}; we probably just need to sync and/or update permissions for this dataset.<br/><br/> We've been notified of the error and will work on it. If you'd like to contact us, we can be reached at <a href="mailto:data@mapc.org">data@mapc.org</a>
+                    {{/each}}
+                  </div>
+                </div>
+              </h3>
+            {{/each}}
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
