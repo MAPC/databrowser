@@ -22,7 +22,7 @@ export default Ember.Controller.extend({
     }
 
     let filterToken = '';
-    if (this.get('model.dataset.hasYears') && yearsSelected[0]) {  
+    if (this.get('model.dataset.hasYears') && yearsSelected[0]) {
       let str = yearsSelected.map((el) => { return el.year }).join("','");
       filterToken = ` WHERE ${this.get('model.dataset.yearcolumn')} IN ('${str}')`;
     }
@@ -42,17 +42,17 @@ export default Ember.Controller.extend({
     let tabular = this.get('model.dataset.table_name');
     let fields = Object.keys(this.get('model.raw_data.fields')).map((el) => { return `a.${el}` });
     let where = '';
-    if (this.get('model.dataset.hasYears')) {  
+    if (this.get('model.dataset.hasYears')) {
       let yearsSelected = this.get('model.years_available').filterBy('selected', true);
       let latest = yearsSelected[yearsSelected.length-1];
       where = ` WHERE a.${this.get('model.dataset.yearcolumn')} IN ('${latest.year}')`;
     }
 
     let select = `SELECT ${fields}, b.the_geom, b.the_geom_webmercator `;
-    // SELECT *, b.the_geom, b.the_geom_webmercator, a.cartodb_id, a.muni_id, 
+    // SELECT *, b.the_geom, b.the_geom_webmercator, a.cartodb_id, a.muni_id,
 
     let from = `FROM ${tabular} a `;
-    // FROM "mapc-admin".demo_projections_pop_ages_65p_view a 
+    // FROM "mapc-admin".demo_projections_pop_ages_65p_view a
 
     let inner_join = `INNER JOIN ${spatial_meta.table} b ON a.${spatial_meta.field} = b.${spatial_meta.field}`;
     // INNER JOIN "mapc-admin".ma_municipalities b ON a.muni_id = b.muni_id
@@ -67,6 +67,29 @@ export default Ember.Controller.extend({
     let download_link_geojson = encodeURIComponent(this.get('download_link_geojson'));
     return `http://oneclick.cartodb.com/?file=${download_link_geojson}&provider=MAPC&logo=http://data.mapc.org/img/mapc-color.png`;
   }),
+  formattedMetadata: Ember.computed('model', function() {
+    let metadata = this.get('model.metadata');
+    if ('definition' in metadata) {
+      return Ember.A(this.transformGeospatialMetadata(metadata));
+    } else {
+      return metadata;
+    }
+  }),
+
+  transformGeospatialMetadata(geospatialMetadata) {
+    let columnMetadata = geospatialMetadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx']
+
+    let reformattedColumnMetadata = columnMetadata.map(object => {
+      var reformattedObject = {};
+      if (object.AliasName) {
+        reformattedObject['name'] = object.Name;
+        reformattedObject['alias'] = object.AliasName;
+      }
+      return reformattedObject;
+    });
+
+    return reformattedColumnMetadata;
+},
 
   actions: {
     toggle(year) {
