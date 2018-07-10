@@ -42,8 +42,6 @@
     em { font-weight: 700; }
   }
 
-  .table-wrapper {
-    @extend ._partial-bg;
-  }
+  .table-wrapper { @extend ._partial-bg; }
 
 }

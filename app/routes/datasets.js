@@ -28,7 +28,7 @@ export default class extends Route {
 
     let meta_url = `${config.metadataHost}/tabular?tables=${dataset.get('table_name')}`;
     let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${dataset.get('table_name')} limit 50`;
-    
+
     // models
     let raw_data = this.get('ajax').request(url).then(function(raw_data) {
       return imputeSpatiality(raw_data);
@@ -57,7 +57,6 @@ export default class extends Route {
   }
 
   afterModel(model) {
-    console.log(model.metadata);
     if (!isAjaxError(model.raw_data)) {
       let fields = model.raw_data.fields;
 

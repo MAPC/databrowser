@@ -101,6 +101,26 @@
           {{/if}}
         </div>
       </div>
+
+      {{#if (gt model.raw_data.rows.length perPage)}}
+        <div class="pagination">
+          <div class="button-wrapper {{unless min 'disabled'}}">
+            <button onclick={{action 'first'}}>&lt;&lt;</button>
+            <button onclick={{action 'previous'}}>&lt;</button>
+          </div>
+
+          <div class="page-counter">
+            {{page}}
+            <span class="separator"></span>
+            {{totalPageCount}}
+          </div>
+
+          <div class="button-wrapper {{if (gte max model.raw_data.rows.length) 'disabled'}}">
+            <button onclick={{action 'next'}}>&gt;</button>
+            <button onclick={{action 'last'}}>&gt;&gt;</button>
+          </div>
+        </div>
+      {{/if}}
     </div>
   </div>
 
