@@ -1,7 +1,6 @@
 import Controller from '@ember/controller';
 import config from '../config/environment';
 import { service } from '@ember-decorators/service';
-import { alias } from '@ember-decorators/object/computed';
 import { computed, action } from '@ember-decorators/object';
 
 export default class extends Controller {
@@ -106,7 +105,13 @@ export default class extends Controller {
 
   @action
   next() {
-    let { min, max, perPage, page, pageCount } = this.getProperties('min', 'max', 'perPage', 'page', 'pageCount');
+    const {
+      min,
+      max,
+      perPage,
+      page,
+      pageCount
+    } = this.getProperties('min', 'max', 'perPage', 'page', 'pageCount');
 
     if (page !== pageCount) {
       this.set('min', min + perPage);
@@ -117,13 +122,11 @@ export default class extends Controller {
 
   @action
   previous() {
-    let { min, max, perPage, page } = this.getProperties('min', 'max', 'perPage', 'page');
-
-    console.log(page);
+    const { min, perPage, page } = this.getProperties('min', 'perPage', 'page');
 
     if (page !== 1) {
       this.set('min', min - perPage);
-      this.set('max', max - perPage);
+      this.set('max', min);
     }
   }
 
