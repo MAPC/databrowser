@@ -1,6 +1,6 @@
 .route.datasets {
 
-  .download-links, .year-filter { display: none; }
+  .year-filter { display: none; }
 
   .back-link {
     z-index: 10;
@@ -42,10 +42,44 @@
     em { font-weight: 700; }
   }
 
+  .download-links {
+    position: absolute;
+    bottom: -4px;
+    right: 0;
+
+    font-size: $font_size-xsmall;
+    font-weight: 700;
+  }
+
+  .download-buttons {
+    display: inline-block;
+    top: -9px;
+
+    margin-left: 5px;
+
+    a {
+      margin: auto 3px;
+
+      font-weight: 200;
+      font-size: $font_size-xsmall;
+    }
+
+    $spreadLevels: 2 3 4;
+
+    @each $spread in $spreadLevels {
+      &.gradient-#{$spread} a {
+        @for $i from 1 through $spread {
+          &:nth-of-type(#{$i}) { @include partialGradient($i, $spread); }
+        }
+      }
+    }
+  }
+
+
   .table-wrapper { @extend ._partial-bg; }
 
   .pagination {
-    padding-top: 1rem;
+    padding-top: 2rem;
 
     text-align: right;
 

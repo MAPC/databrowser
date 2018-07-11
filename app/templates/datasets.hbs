@@ -37,38 +37,31 @@
             <a class="{{if year.selected 'blue'}}" {{action 'toggle' year}}>{{year.year}}</a>
           {{/each}}
         </div>
-      </div>
 
-      <div class="download-links">
-        {{#if model.metadata.rows}}
-          {{#ui-popup content="Download Metadata" position='left center'}}
-            <a class="big circular orange ui icon button" href={{download_link_metadata}} download={{concat model.dataset.table_name '_meta'}}>
-              <i class="icon help"></i>
+        <div class="download-links">
+          Download:
+
+          <div class="download-buttons gradient-{{downloadButtonsLength}}">
+            {{#if model.metadata.rows}}
+              <a class="button lift" href={{download_link_metadata}} download={{concat model.dataset.table_name '_meta'}}>
+                meta
+              </a>
+            {{/if}}
+
+            <a class="button lift" href={{download_link}} download={{model.dataset.table_name}}>
+              .csv
             </a>
-          {{/ui-popup}}
-        {{/if}}
-        {{#ui-popup content="Download CSV" position='left center'}}
-          <a class="medium ui circular raised segment circular ui green icon button floating-menu" href={{download_link}} download={{model.dataset.table_name}}>
-            <i class="big file excel outline icon"></i>
-          </a>
-        {{/ui-popup}}
-        {{#if model.raw_data.spatialMetaData}}
-          {{#ui-popup content="Download Shapefile" position='left center'}}
-            <a class="medium ui circular raised segment circular ui blue icon button floating-menu" href={{download_link_shapefile}} download={{model.dataset.table_name}}>
-              <i class="big icon map"></i>
-            </a>
-          {{/ui-popup}}
-          {{#ui-popup content="Download Geojson" position='left center'}}
-            <a class="medium ui circular raised segment circular ui yellow icon button floating-menu" href={{download_link_geojson}} download={{model.dataset.table_name}}>
-              <i class="big icon map outline"></i>
-            </a>
-          {{/ui-popup}}
-          {{#ui-popup content="Visualize" position='left center'}}
-            <a class="medium ui circular raised segment circular ui pink icon button floating-menu" href={{download_link_visualize}} target='_blank'>
-              <i class="big icon map outline"></i>
-            </a>
-          {{/ui-popup}}
-        {{/if}}
+
+            {{#if model.raw_data.spatialMetaData}}
+              <a class="button lift" href={{download_link_shapefile}} download={{model.dataset.table_name}}>
+                .shp
+              </a>
+              <a class="button lift" href={{download_link_geojson}} download={{model.dataset.table_name}}>
+                .geojson
+              </a>
+            {{/if}}
+          </div>
+        </div>
       </div>
     </div>
   </div>

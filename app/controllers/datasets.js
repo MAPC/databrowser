@@ -30,6 +30,22 @@ export default class extends Controller {
   }
 
 
+  @computed('model.{metadata.rows,raw_data.spatialMetaData}')
+  get downloadButtonsLength() {
+    let length = 1;
+
+    if (this.get('model.metadata.rows')) {
+      length++;
+    }
+
+    if (this.get('model.raw_data.spatialMetaData')) {
+      length = length + 3;
+    }
+
+    return length;
+  }
+
+
   @computed('model', 'model.years_available.@each.selected')
   get download_link() {
     let yearsSelected = this.get('model.years_available') || [];
