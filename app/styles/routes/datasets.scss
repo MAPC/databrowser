@@ -44,4 +44,57 @@
 
   .table-wrapper { @extend ._partial-bg; }
 
+  .pagination {
+    padding-top: 1rem;
+
+    text-align: right;
+
+    & > div { display: inline-block; }
+
+    .separator {
+      display: inline-block;
+      top: 4px;
+
+      height: 17px;
+      width: 1px;
+
+      margin: auto;
+      background: $color_font-medium;
+    }
+
+    .button-wrapper {
+      vertical-align: middle;
+      border-radius: $elem_button-radius;
+      transition: opacity .15s, background .15s;
+
+      &:first-of-type { @include partialGradient(1, 2); }
+      &:last-of-type { @include partialGradient(2, 2); }
+
+      &.disabled {
+        opacity: .4;
+        background: $color_font-medium;
+        transition: opacity .15s, background .15s;
+
+        button { cursor: initial; }
+      }
+
+      .separator { background: rgba($color_bg-dark, .15); }
+    }
+
+    button {
+      height: 100%;
+      padding: .2em .6em .45em;
+
+      background: none;
+    }
+
+    .page-counter {
+      top: 2px;
+
+      margin: auto 10px;
+
+      .separator { margin: auto 3px; }
+    }
+  }
+
 }

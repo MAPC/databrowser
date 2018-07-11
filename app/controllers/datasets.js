@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import config from '../config/environment';
 import { service } from '@ember-decorators/service';
+import { alias } from '@ember-decorators/object/computed';
 import { computed, action } from '@ember-decorators/object';
 
 export default class extends Controller {
@@ -14,15 +15,19 @@ export default class extends Controller {
     this.years = [];
 
     this.min = 0;
-    this.max = 50;
-    this.perPage = 50;
+    this.max = this.perPage = 50;
+  }
+
+
+  @computed('model.raw_data.rows.length')
+  get pageCount() {
+    return Math.ceil(this.get('model.raw_data.rows.length') / this.get('perPage'));
   }
 
 
   @computed('min', 'max')
   get page() {
-    const { perPage, max } = this.getProperties('perPage', 'max');
-    return Math.round(max/perPage);
+    return Math.ceil(this.get('max') / this.get('perPage'));
   }
 
 
@@ -101,17 +106,42 @@ export default class extends Controller {
 
   @action
   next() {
-    let { min, max, perPage } = this.getProperties('min', 'max', 'perPage');
-    this.set('min', min + perPage);
-    this.set('max', max + perPage);
+    let { min, max, perPage, page, pageCount } = this.getProperties('min', 'max', 'perPage', 'page', 'pageCount');
+
+    if (page !== pageCount) {
+      this.set('min', min + perPage);
+      this.set('max', max + perPage);
+    }
   }
 
 
   @action
   previous() {
-    let { min, max, perPage } = this.getProperties('min', 'max', 'perPage');
-    this.set('min', min - perPage);
-    this.set('max', max - perPage);
+    let { min, max, perPage, page } = this.getProperties('min', 'max', 'perPage', 'page');
+
+    console.log(page);
+
+    if (page !== 1) {
+      this.set('min', min - perPage);
+      this.set('max', max - perPage);
+    }
+  }
+
+
+  @action
+  first() {
+    this.set('min', 0);
+    this.set('max', this.get('perPage'));
+  }
+
+
+  @action
+  last() {
+    const perPage = this.get('perPage');
+    const { length } = this.get('model.raw_data.rows');
+
+    this.set('min', length - (length % perPage));
+    this.set('max', length);
   }
 
 }
