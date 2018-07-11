@@ -83,15 +83,8 @@
 
     <div class="scroll-horizontal-rotated ui raised center aligned segment">
       <div class="cancel-rotate">
-        <div class="ui inverted segment">
-          {{#unless model.dataset.isMunicipal}}
-            Note: Viewing First 50 rows; Filters apply only to data export.
-          {{else}}
-            Note: Viewing Latest Year available; Filters apply only to data export.
-          {{/unless}}
-        </div>
         {{#if (not model.raw_data.errors)}}
-          {{ui-table model=(slice min max model.raw_data.rows) fields=model.raw_data.fields metadata=formattedMetadata}}
+          {{ui-table model=(slice min max selected_rows) fields=model.raw_data.fields metadata=formattedMetadata}}
         {{else}}
           {{#each model.raw_data.errors as |error|}}
             <h3 class="ui icon header">

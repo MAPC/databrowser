@@ -75,6 +75,13 @@ export default Ember.Controller.extend({
       return metadata;
     }
   }),
+  selected_rows: Ember.computed('model.years_available.@each.selected', function() {
+    let years_available = this.get('model.years_available').filterBy('selected', true).map(selected => selected.year);
+    let emberModelObject = this.get('model');
+    return this.get('model.raw_data.rows').filter(function(row) {
+      return years_available.includes(row.acs_year);
+    });
+  }),
 
   transformGeospatialMetadata(geospatialMetadata) {
     let columnMetadata = geospatialMetadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx']

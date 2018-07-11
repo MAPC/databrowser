@@ -20,8 +20,8 @@ export default class extends Route {
     // SQL queries
     let url = `${config.dataBrowserEndpoint}select * from ${dataset.get('table_name')} `;
 
-    if (dataset.get('isMunicipal') && dataset.get('hasYears')) {
-      url += `where ${yearcolumn}=(select max(${yearcolumn}) from ${dataset.get('table_name')}) order by municipal ASC;`;
+    if (dataset.get('hasYears')) {
+      url += `order by ${yearcolumn} ASC;`;
     } else {
       url += ' LIMIT 50;';
     }
