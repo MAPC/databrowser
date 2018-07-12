@@ -27,6 +27,7 @@
 
   .table-meta {
     margin-top: 0;
+    margin-bottom: 30px;
 
     font-size: $font_size-xsmall;
     font-style: italic;
@@ -41,39 +42,89 @@
   }
 
   .year-filter {
+    display: flex;
+    width: 50%;
 
+    font-size: $font_size-xsmall;
+    vertical-align: bottom;
+
+    span {
+      flex: 0;
+      top: 1px;
+      display: block;
+
+      min-width: 70px;
+    }
+
+    ul {
+      display: inline-block;
+
+      margin: 0;
+      margin-left: .5em;
+      vertical-align: text-bottom;
+    }
+
+    li {
+      display: inline-block;
+
+      margin-bottom: 6px;
+      padding: .1em .5em .2em;
+
+      color: $color_font-medium;
+
+      border: 1px solid $color_font-medium;
+      border-radius: $elem_button-radius;
+      cursor: pointer;
+      transition: color .14s, border-color .14s, opacity .14s;
+
+      &:not(:last-of-type) { margin-right: 4px; }
+
+      &:hover {
+        opacity: .8;
+        transition: opacity .14s;
+      }
+
+      &.selected {
+        color: $color_brand-secondary;
+
+        border-color: $color_brand-secondary;
+        transition: color .14s, border-color .14s;
+      }
+    }
   }
 
   .download-links {
     position: absolute;
-    bottom: -4px;
+    bottom: 11px;
     right: 0;
 
     font-size: $font_size-xsmall;
-  }
 
-  .download-buttons {
-    display: inline-block;
-    top: -6px;
+    .download-buttons {
+      display: inline-block;
 
-    margin-left: 5px;
+      margin: auto;
+      margin-left: 5px;
+      vertical-align: text-bottom;
 
-    a {
-      margin: auto 3px;
+      a {
+        margin: auto 3px;
 
-      font-size: $font_size-xsmall;
-    }
+        font-size: $font_size-xsmall;
+      }
 
-    $spreadLevels: 2 3 4;
+      $spreadLevels: 2 3 4;
 
-    @each $spread in $spreadLevels {
-      &.gradient-#{$spread} a {
-        @for $i from 1 through $spread {
-          &:nth-of-type(#{$i}) { @include partialGradient($i, $spread); }
+      @each $spread in $spreadLevels {
+        &.gradient-#{$spread} a {
+          @for $i from 1 through $spread {
+            &:nth-of-type(#{$i}) { @include partialGradient($i, $spread); }
+          }
         }
       }
     }
   }
+
 
 
   .table-wrapper { @extend ._partial-bg; }

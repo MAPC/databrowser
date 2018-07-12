@@ -28,15 +28,19 @@
           {{/with}}
         </ul>
 
-        <div class="year-filter">
-          {{#if model.years_available.length}}
-            <div>Select Years:</div>
-          {{/if}}
+        {{#if model.years_available.length}}
+          <div class="year-filter">
+            <span>Select Years:</span>
 
-          {{#each model.years_available as |year|}}
-            <a class="{{if year.selected 'blue'}}" {{action 'toggle' year}}>{{year.year}}</a>
-          {{/each}}
-        </div>
+            <ul>
+              {{#each model.years_available as |year|}}
+                <li class="{{if year.selected 'selected'}}" onclick={{action 'toggle' year}}>
+                  {{year.year}}
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        {{/if}}
 
         <div class="download-links">
           Download:
