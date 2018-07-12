@@ -1,7 +1,5 @@
 .route.datasets {
 
-  .year-filter { display: none; }
-
   .back-link {
     z-index: 10;
     top: 2px;
@@ -40,6 +38,10 @@
     }
 
     em { font-weight: 700; }
+  }
+
+  .year-filter {
+
   }
 
   .download-links {
