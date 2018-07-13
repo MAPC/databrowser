@@ -17,7 +17,7 @@ export default Ember.Controller.extend({
 
   download_link: Ember.computed('model', 'model.years_available.@each.selected', function() {
     let yearsSelected = this.get('model.years_available') || [];
-    if (!yearsSelected.errors) {
+    if (Ember.compare(Ember.Error, yearsSelected) !== 0) {
       yearsSelected = yearsSelected.filterBy('selected', true);
     }
 
@@ -76,10 +76,13 @@ export default Ember.Controller.extend({
     }
   }),
   selected_rows: Ember.computed('model.years_available.@each.selected', function() {
+    if (Ember.compare(Ember.Error, this.get('model.years_available')) === 0) {
+      return this.get('model.years_available');
+    }
+    let year_column = 'row.' + this.get('model.dataset.yearcolumn');
     let years_available = this.get('model.years_available').filterBy('selected', true).map(selected => selected.year);
-    let emberModelObject = this.get('model');
     return this.get('model.raw_data.rows').filter(function(row) {
-      return years_available.includes(row.acs_year);
+      return years_available.includes(eval(year_column));
     });
   }),
 
@@ -113,6 +116,6 @@ export default Ember.Controller.extend({
       let { min, max, perPage } = this.getProperties('min', 'max', 'perPage');
       this.set('min', min - perPage);
       this.set('max', max - perPage);
-    }
+    },
   }
 });
