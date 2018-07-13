@@ -79,10 +79,9 @@ export default Ember.Controller.extend({
     if (Ember.compare(Ember.Error, this.get('model.years_available')) === 0) {
       return this.get('model.years_available');
     }
-    let year_column = 'row.' + this.get('model.dataset.yearcolumn');
     let years_available = this.get('model.years_available').filterBy('selected', true).map(selected => selected.year);
-    return this.get('model.raw_data.rows').filter(function(row) {
-      return years_available.includes(eval(year_column));
+    return this.get('model.raw_data.rows').filter((row) => {
+      return years_available.includes(row[this.get('model.dataset.yearcolumn')]);
     });
   }),
 
