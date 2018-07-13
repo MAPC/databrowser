@@ -11,7 +11,8 @@ export default class extends Controller {
     this.queryParams = ['selectedCategory'];
     this.selectedCategory = null;
     this.primaryCount = 0;
-    this.hostname = config.metadataHost;
+    this.hostname = config.host;
+    this.rootURL = config.rootURL;
   }
 
 

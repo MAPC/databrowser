@@ -14,14 +14,14 @@ module.exports = function(deployTarget) {
 
   if (deployTarget === 'staging') {
     ENV.rsync = {
-      dest: 'databrowser@prep.mapc.org:/var/www/databrowser',
+      dest: 'databrowser@prep.mapc.org:/var/www/databrowser/browser',
       delete: false,
     };
   }
 
   if (deployTarget === 'production') {
     ENV.rsync = {
-      dest: 'databrowser@live.mapc.org:/var/www/databrowser',
+      dest: 'databrowser@live.mapc.org:/var/www/databrowser/browser',
       delete: false,
     };
   }

@@ -8,9 +8,9 @@ module.exports = function(environment) {
     locationType: 'auto',
     dataBrowserIndex: 'https://mapc-admin.carto.com/api/v2/sql?q=select%20*%20from%20table_data_browser%20where%20schemaname=\'tabular\'%20and%20active=\'Y\'',
     dataBrowserEndpoint: 'https://datacommon.carto.mapc.org/api/v2/sql?q=',
-    spatialJoinFields: [  { field: 'ct10_id', table: 'census_2010_tracts'}, 
+    spatialJoinFields: [  { field: 'ct10_id', table: 'census_2010_tracts'},
                           { field: 'muni_id', table: 'ma_municipalities'}
-                          // { field: 'bg10_id', table: ''} 
+                          // { field: 'bg10_id', table: ''}
                         ],
     EmberENV: {
       FEATURES: {
@@ -33,11 +33,17 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    ENV.metadataHost = 'http://staging.datacommon.mapc.org';
+    ENV.host = 'https://staging.datacommon.mapc.org/';
+  }
+
+  if (environment === 'staging') {
+    ENV.host = 'https://staging.datacommon.mapc.org';
+    ENV.rootURL = '/browser';
   }
 
   if (environment === 'production') {
-    ENV.metadataHost = 'http://datacommon.mapc.org';
+    ENV.host = 'http://datacommon.mapc.org';
+    ENV.rootURL = '/browser';
   }
 
   if (environment === 'test') {

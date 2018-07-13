@@ -26,7 +26,7 @@ export default class extends Route {
       url += ' LIMIT 50;';
     }
 
-    let meta_url = `${config.metadataHost}/tabular?tables=${dataset.get('table_name')}`;
+    let meta_url = `${config.host}/tabular?tables=${dataset.get('table_name')}`;
     let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${dataset.get('table_name')} limit 50`;
 
     // models
