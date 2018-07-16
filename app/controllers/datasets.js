@@ -76,7 +76,7 @@ export default Ember.Controller.extend({
     }
   }),
   selected_rows: Ember.computed('model.years_available.@each.selected', function() {
-    if (Ember.compare(Ember.Error, this.get('model.years_available')) === 0) {
+    if (this.get('model.years_available') instanceof Ember.error) {
       return this.get('model.years_available');
     }
     let years_available = this.get('model.years_available').filterBy('selected', true).map(selected => selected.year);
