@@ -45,7 +45,9 @@ export default Ember.Controller.extend({
     if (this.get('model.dataset.hasYears')) {
       let yearsSelected = this.get('model.years_available').filterBy('selected', true);
       let latest = yearsSelected[yearsSelected.length-1];
-      where = ` WHERE a.${this.get('model.dataset.yearcolumn')} IN ('${latest.year}')`;
+      if(latest) {
+        where = ` WHERE a.${this.get('model.dataset.yearcolumn')} IN ('${latest.year}')`;
+      }
     }
 
     let select = `SELECT ${fields}, b.the_geom, b.the_geom_webmercator `;
