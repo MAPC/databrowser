@@ -48,7 +48,10 @@ export default class extends Route {
     let years_available = this.get('ajax').request(years_url).then(function(years) {
       if (dataset.get('hasYears')) {
         let keys = years.rows.mapBy(yearcolumn).sort();
-        let obj = keys.map((el) => { return EmberObject.create({ year: el, selected: true }); });
+        let obj = keys.map((el, index) => {
+          let isSelected = (index === 0);
+          return EmberObject.create({ year: el, selected: isSelected });
+        });
         return obj;
       } else {
         return A([]);
