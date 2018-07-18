@@ -20,8 +20,8 @@ export default class extends Route {
     // SQL queries
     let url = `${config.dataBrowserEndpoint}select * from ${dataset.get('table_name')} `;
 
-    if (dataset.get('isMunicipal') && dataset.get('hasYears')) {
-      url += `where ${yearcolumn}=(select max(${yearcolumn}) from ${dataset.get('table_name')}) order by municipal ASC;`;
+    if (dataset.get('hasYears')) {
+      url += `order by ${yearcolumn} ASC;`;
     } else {
       url += ' LIMIT 50;';
     }
@@ -47,8 +47,11 @@ export default class extends Route {
 
     let years_available = this.get('ajax').request(years_url).then(function(years) {
       if (dataset.get('hasYears')) {
-        let keys = years.rows.mapBy(yearcolumn).sort();
-        let obj = keys.map((el) => { return EmberObject.create({ year: el, selected: true }); });
+        let keys = years.rows.mapBy(yearcolumn).sort().reverse();
+        let obj = keys.map((el, index) => {
+          let isSelected = (index === 0);
+          return EmberObject.create({ year: el, selected: isSelected });
+        });
         return obj;
       } else {
         return A([]);

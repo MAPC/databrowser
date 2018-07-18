@@ -17,7 +17,7 @@ export default Ember.Controller.extend({
 
   download_link: Ember.computed('model', 'model.years_available.@each.selected', function() {
     let yearsSelected = this.get('model.years_available') || [];
-    if (!yearsSelected.errors) {
+    if (Ember.compare(Ember.Error, yearsSelected) !== 0) {
       yearsSelected = yearsSelected.filterBy('selected', true);
     }
 
@@ -45,7 +45,9 @@ export default Ember.Controller.extend({
     if (this.get('model.dataset.hasYears')) {
       let yearsSelected = this.get('model.years_available').filterBy('selected', true);
       let latest = yearsSelected[yearsSelected.length-1];
-      where = ` WHERE a.${this.get('model.dataset.yearcolumn')} IN ('${latest.year}')`;
+      if(latest) {
+        where = ` WHERE a.${this.get('model.dataset.yearcolumn')} IN ('${latest.year}')`;
+      }
     }
 
     let select = `SELECT ${fields}, b.the_geom, b.the_geom_webmercator `;
@@ -74,6 +76,15 @@ export default Ember.Controller.extend({
     } else {
       return metadata;
     }
+  }),
+  selected_rows: Ember.computed('model.years_available.@each.selected', function() {
+    if (this.get('model.years_available') instanceof Ember.Error) {
+      return this.get('model.years_available');
+    }
+    let years_available = this.get('model.years_available').filterBy('selected', true).map(selected => selected.year);
+    return this.get('model.raw_data.rows').filter((row) => {
+      return years_available.includes(row[this.get('model.dataset.yearcolumn')]);
+    });
   }),
 
   transformGeospatialMetadata(geospatialMetadata) {
@@ -106,6 +117,6 @@ export default Ember.Controller.extend({
       let { min, max, perPage } = this.getProperties('min', 'max', 'perPage');
       this.set('min', min - perPage);
       this.set('max', max - perPage);
-    }
+    },
   }
 });
