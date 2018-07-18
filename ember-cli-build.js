@@ -9,7 +9,8 @@ module.exports = function(defaults) {
     app = new EmberApp(defaults, {
       babel: {
           sourceMaps: 'inline'
-        }
+        },
+      hinting: process.env.EMBER_ENV !== 'test'
     });
   }
   // Use `app.import` to add additional libraries to the generated
