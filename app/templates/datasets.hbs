@@ -74,13 +74,7 @@
     <div class="container tight">
       <div class="scroll-horizontal-rotated ui lift">
         <div class="cancel-rotate">
-          {{#if (not model.raw_data.errors)}}
-            {{ui-table
-              model=(slice min max model.raw_data.rows)
-              fields=model.raw_data.fields
-              metadata=model.metadata
-            }}
-          {{else}}
+          {{#if model.raw_data_errors}}
             {{#each model.raw_data.errors as |error|}}
               <h3 class="ui icon header">
                 <i class="warning sign icon"></i>
@@ -95,6 +89,24 @@
                 </div>
               </h3>
             {{/each}}
+          {{else}}
+            {{#if model.raw_data.message}}
+              <h3 class="ui icon header">
+                <i class="warning sign icon"></i>
+                <div class="content">
+                  Oops.
+                  <div class="sub header">
+                    We probably just need to sync and/or update permissions for this dataset.<br/><br/> We've been notified of the error and will work on it. If you'd like to contact us, we can be reached at <a href="mailto:data@mapc.org">data@mapc.org</a>
+                  </div>
+                </div>
+              </h3>
+            {{else}}
+              {{ui-table
+                model=(slice min max selected_rows)
+                fields=model.raw_data.fields
+                metadata=model.metadata
+              }}
+            {{/if}}
           {{/if}}
         </div>
       </div>

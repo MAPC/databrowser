@@ -45,7 +45,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+* `npm run staging` to build the app and deploy it to the staging website http://staging.data-browser.mapc.org/
 
 ## Further Reading / Useful Links
 

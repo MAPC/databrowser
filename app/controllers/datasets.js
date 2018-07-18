@@ -3,6 +3,7 @@ import config from '../config/environment';
 import { service } from '@ember-decorators/service';
 import { computed, action } from '@ember-decorators/object';
 
+
 export default class extends Controller {
 
   @service ajax
@@ -30,6 +31,39 @@ export default class extends Controller {
   }
 
 
+  @computed('model')
+  get formattedMetadata() {
+    const metadata = this.get('model.metadata');
+
+    if ('definition' in metadata) {
+      let columnMetadata = metadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx'];
+
+      const transformedMetadata = columnMetadata.filter(column => column.AliasName)
+                                                .map(column => ({ name: column.Name, alias: column.AliasName }));
+
+      return Ember.A(transformedMetadata);
+    } else {
+      return metadata;
+    }
+  }
+
+
+  @computed('model.years_available.@each.selected')
+  get selected_rows() {
+    if (this.get('model.years_available') instanceof Ember.Error) {
+      return this.get('model.years_available');
+    }
+
+    let years_available = this.get('model.years_available')
+                              .filterBy('selected', true)
+                              .map(selected => selected.year);
+
+    return this.get('model.raw_data.rows').filter((row) => {
+      return years_available.includes(row[this.get('model.dataset.yearcolumn')]);
+    });
+  }
+
+
   @computed('model.{metadata.rows,raw_data.spatialMetaData}')
   get downloadButtonsLength() {
     let length = 1;
@@ -49,7 +83,7 @@ export default class extends Controller {
   @computed('model', 'model.years_available.@each.selected')
   get download_link() {
     let yearsSelected = this.get('model.years_available') || [];
-    if (!yearsSelected.errors) {
+    if (Ember.compare(Ember.Error, yearsSelected) !== 0) {
       yearsSelected = yearsSelected.filterBy('selected', true);
     }
 
@@ -101,7 +135,9 @@ export default class extends Controller {
     if (this.get('model.dataset.hasYears')) {
       let yearsSelected = this.get('model.years_available').filterBy('selected', true);
       let latest = yearsSelected[yearsSelected.length-1];
-      where = ` WHERE a.${this.get('model.dataset.yearcolumn')} IN ('${latest.year}')`;
+      if(latest) {
+        where = ` WHERE a.${this.get('model.dataset.yearcolumn')} IN ('${latest.year}')`;
+      }
     }
 
     let select = `SELECT ${fields}, b.the_geom, b.the_geom_webmercator `;

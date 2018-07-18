@@ -20,13 +20,16 @@ export default class extends Route {
     // SQL queries
     let url = `${config.dataBrowserEndpoint}select * from ${dataset.get('table_name')} `;
 
-    if (dataset.get('isMunicipal') && dataset.get('hasYears')) {
-      url += `where ${yearcolumn}=(select max(${yearcolumn}) from ${dataset.get('table_name')}) order by municipal ASC;`;
+    if (dataset.get('hasYears')) {
+      url += `order by ${yearcolumn} ASC;`;
     } else {
       url += ' LIMIT 50;';
     }
 
-    let meta_url = `${config.host}/tabular?tables=${dataset.get('table_name')}`;
+    // check to see if table_data_browser entry marks it as tabular or not
+    const tableSchema = dataset.get('schemaname') === 'tabular' ? 'tabular' : 'geospatial';
+    let meta_url = `${config.host}/${tableSchema}?tables=${dataset.get('table_name')}`;
+
     let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${dataset.get('table_name')} limit 50`;
 
     // models
@@ -40,8 +43,11 @@ export default class extends Route {
 
     let years_available = this.get('ajax').request(years_url).then(function(years) {
       if (dataset.get('hasYears')) {
-        let keys = years.rows.mapBy(yearcolumn).sort();
-        let obj = keys.map((el) => { return EmberObject.create({ year: el, selected: true }); });
+        let keys = years.rows.mapBy(yearcolumn).sort().reverse();
+        let obj = keys.map((el, index) => {
+          let isSelected = (index === 0);
+          return EmberObject.create({ year: el, selected: isSelected });
+        });
         return obj;
       } else {
         return A([]);
@@ -63,6 +69,7 @@ export default class extends Route {
       delete fields['the_geom'];
       delete fields['the_geom_webmercator'];
       delete fields['cartodb_id'];
+      delete fields['invalid_the_geom'];
     }
   }
 

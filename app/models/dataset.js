@@ -13,9 +13,5 @@ export default DS.Model.extend({
   source: DS.attr('string'),
   hasYears: Ember.computed('yearcolumn', function() {
     return !!this.get('yearcolumn');
-  }),
-  isMunicipal: Ember.computed('menu3', function() {
-    let table_name = this.get('menu3');
-    return /(Municipal)/.test(table_name);
   })
 });
