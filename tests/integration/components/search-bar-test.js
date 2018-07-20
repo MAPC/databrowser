@@ -6,21 +6,18 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | search-bar', function(hooks) {
   setupRenderingTest(hooks);
 
+  let datasets = [
+    { id: '1', title: 'Households with Kids' },
+    { id: '2', title: 'Households without Kids' },
+  ];
+
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
+    this.set('searchables', datasets)
 
-    await render(hbs`{{search-bar}}`);
-
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
     await render(hbs`
-      {{#search-bar}}
-        template block text
-      {{/search-bar}}
+      {{search-bar records=searchables class="lift"}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.children[0].children[0].placeholder, 'Search 2 datasets ...');
   });
 });
