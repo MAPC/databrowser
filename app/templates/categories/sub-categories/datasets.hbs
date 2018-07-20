@@ -1,27 +1,17 @@
-<div class="divider-column">
-  <div class="ui vertical divider" style="height: 100%;">
-    <i class="ui icon right arrow"></i>
-  </div>
-</div>
-<div class="eight wide column">
-  {{#liquid-bind model use='toUp'}}
-    <div class="ui raised segment scrollable-menus">
-      <h4 class="ui dividing header">
-        {{model.firstObject.menu2}}
-      </h4>
+<div class="scrollable-menus">
+  <h3>Datasets</h3>
 
-        <div class="ui selection list">
-          {{#each model as |dataSet|}}
-            {{!-- <a class="item" href={{concat dataSet.dataBrowserEndpoint 'select * from ' dataSet.table_name '&format=csv' }} target="_blank"> --}}
-            {{#link-to 'datasets' dataSet.id class='item'}}
-              <div class="content">
-                <div class="header">{{dataSet.menu3}}</div>
-                <div class="description">{{category.values.length}} datasets</div>
-              </div>
-            {{/link-to}}
-          {{/each}}
-        </div>  
+  {{#liquid-bind model use='toUp'}}
+    <div class="component menus-component">
+      <ul class="styled lift">
+        {{#each model as |dataset|}}
+          <li>
+            {{link-to dataset.menu3 'datasets' dataset.id}}
+          </li>
+        {{/each}}
+      </ul>  
     </div>
   {{/liquid-bind}}
-  {{outlet}}
 </div>
+
+{{outlet}}

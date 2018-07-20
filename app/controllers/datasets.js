@@ -1,21 +1,87 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import config from '../config/environment';
+import { service } from '@ember-decorators/service';
+import { computed, action } from '@ember-decorators/object';
 
-export default Ember.Controller.extend({
-  ajax: Ember.inject.service(),
 
-  queryParams: ['min', 'max'],
-  years: [],
+export default class extends Controller {
 
-  min: 0,
-  max: 50,
-  perPage: 50,
-  page: Ember.computed('min','max', function() {
-    let { perPage, max } = this.getProperties('perPage', 'max');
-    return Math.round(max/perPage);
-  }),
+  @service ajax
 
-  download_link: Ember.computed('model', 'model.years_available.@each.selected', function() {
+  constructor() {
+    super(...arguments);
+
+    this.queryParams = ['min', 'max'];
+    this.years = [];
+
+    this.min = 0;
+    this.max = this.perPage = 50;
+  }
+
+
+  @computed('model.raw_data.rows.length')
+  get pageCount() {
+    return Math.ceil(this.get('model.raw_data.rows.length') / this.get('perPage'));
+  }
+
+
+  @computed('min', 'max')
+  get page() {
+    return Math.ceil(this.get('max') / this.get('perPage'));
+  }
+
+
+  @computed('model')
+  get formattedMetadata() {
+    const metadata = this.get('model.metadata');
+
+    if ('definition' in metadata) {
+      let columnMetadata = metadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx'];
+
+      const transformedMetadata = columnMetadata.filter(column => column.AliasName)
+                                                .map(column => ({ name: column.Name, alias: column.AliasName }));
+
+      return Ember.A(transformedMetadata);
+    } else {
+      return metadata;
+    }
+  }
+
+
+  @computed('model.years_available.@each.selected')
+  get selected_rows() {
+    if (this.get('model.years_available') instanceof Ember.Error) {
+      return this.get('model.years_available');
+    }
+
+    let years_available = this.get('model.years_available')
+                              .filterBy('selected', true)
+                              .map(selected => selected.year);
+
+    return this.get('model.raw_data.rows').filter((row) => {
+      return years_available.includes(row[this.get('model.dataset.yearcolumn')]);
+    });
+  }
+
+
+  @computed('model.{metadata.rows,raw_data.spatialMetaData}')
+  get downloadButtonsLength() {
+    let length = 1;
+
+    if (this.get('model.metadata.rows')) {
+      length++;
+    }
+
+    if (this.get('model.raw_data.spatialMetaData')) {
+      length = length + 3;
+    }
+
+    return length;
+  }
+
+
+  @computed('model', 'model.years_available.@each.selected')
+  get download_link() {
     let yearsSelected = this.get('model.years_available') || [];
     if (Ember.compare(Ember.Error, yearsSelected) !== 0) {
       yearsSelected = yearsSelected.filterBy('selected', true);
@@ -28,14 +94,38 @@ export default Ember.Controller.extend({
     }
 
     return `${config.dataBrowserEndpoint} select * from ${this.get('model.dataset.table_name')} ${filterToken}&format=csv&filename=${this.get('model.dataset.table_name')}`;
-  }),
+  }
 
-  download_link_metadata: Ember.computed('model', function() { return this.metadata_query('csv') }),
 
-  metadata_query(format) {
-    format = format || 'json';
+  @computed('model')
+  get download_link_metadata() {
+    return this.metadata_query('csv');
+  }
+
+
+  @computed('model', 'model.years_available.@each.selected')
+  get download_link_shapefile() {
+    return this.spatial_query('shp');
+  }
+
+
+  @computed('model', 'model.years_available.@each.selected')
+  get download_link_geojson() {
+    return this.spatial_query('geojson')
+  }
+
+
+  @computed('model', 'model.years_available.@each.selected')
+  get download_link_visualize() {
+    let download_link_geojson = encodeURIComponent(this.get('download_link_geojson'));
+    return `http://oneclick.cartodb.com/?file=${download_link_geojson}&provider=MAPC&logo=http://data.mapc.org/img/mapc-color.png`;
+  }
+
+
+  metadata_query(format = 'json') {
     return `${config.dataBrowserEndpoint} select * from meta_${this.get('model.dataset.table_name')}&format=${format}&filename=meta_${this.get('model.dataset.table_name')}`;
-  },
+  }
+
 
   spatial_query(format) {
     let spatial_meta = this.get('model.raw_data.spatialMetaData');
@@ -51,72 +141,62 @@ export default Ember.Controller.extend({
     }
 
     let select = `SELECT ${fields}, b.the_geom, b.the_geom_webmercator `;
-    // SELECT *, b.the_geom, b.the_geom_webmercator, a.cartodb_id, a.muni_id,
-
     let from = `FROM ${tabular} a `;
-    // FROM "mapc-admin".demo_projections_pop_ages_65p_view a
-
     let inner_join = `INNER JOIN ${spatial_meta.table} b ON a.${spatial_meta.field} = b.${spatial_meta.field}`;
-    // INNER JOIN "mapc-admin".ma_municipalities b ON a.muni_id = b.muni_id
     let sql = encodeURIComponent(`${select} ${from} ${inner_join}${where}`);
-    let url=`${config.dataBrowserEndpoint}${sql}&format=${format}&filename=${tabular}`;
-    return url;
-  },
 
-  download_link_shapefile: Ember.computed('model', 'model.years_available.@each.selected', function() { return this.spatial_query('shp') }),
-  download_link_geojson: Ember.computed('model', 'model.years_available.@each.selected', function() { return this.spatial_query('geojson') }),
-  download_link_visualize: Ember.computed('model', 'model.years_available.@each.selected', function() {
-    let download_link_geojson = encodeURIComponent(this.get('download_link_geojson'));
-    return `http://oneclick.cartodb.com/?file=${download_link_geojson}&provider=MAPC&logo=http://data.mapc.org/img/mapc-color.png`;
-  }),
-  formattedMetadata: Ember.computed('model', function() {
-    let metadata = this.get('model.metadata');
-    if ('definition' in metadata) {
-      return Ember.A(this.transformGeospatialMetadata(metadata));
-    } else {
-      return metadata;
-    }
-  }),
-  selected_rows: Ember.computed('model.years_available.@each.selected', function() {
-    if (this.get('model.years_available') instanceof Ember.Error) {
-      return this.get('model.years_available');
-    }
-    let years_available = this.get('model.years_available').filterBy('selected', true).map(selected => selected.year);
-    return this.get('model.raw_data.rows').filter((row) => {
-      return years_available.includes(row[this.get('model.dataset.yearcolumn')]);
-    });
-  }),
+    return `${config.dataBrowserEndpoint}${sql}&format=${format}&filename=${tabular}`;
+  }
 
-  transformGeospatialMetadata(geospatialMetadata) {
-    let columnMetadata = geospatialMetadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx']
 
-    let reformattedColumnMetadata = columnMetadata.map(object => {
-      var reformattedObject = {};
-      if (object.AliasName) {
-        reformattedObject['name'] = object.Name;
-        reformattedObject['alias'] = object.AliasName;
-      }
-      return reformattedObject;
-    });
+  @action
+  toggle(year) {
+    year.toggleProperty('selected');
+  }
 
-    return reformattedColumnMetadata;
-},
 
-  actions: {
-    toggle(year) {
-      year.toggleProperty('selected');
-    },
+  @action
+  next() {
+    const {
+      min,
+      max,
+      perPage,
+      page,
+      pageCount
+    } = this.getProperties('min', 'max', 'perPage', 'page', 'pageCount');
 
-    next() {
-      let { min, max, perPage } = this.getProperties('min', 'max', 'perPage');
+    if (page !== pageCount) {
       this.set('min', min + perPage);
       this.set('max', max + perPage);
-    },
-
-    previous() {
-      let { min, max, perPage } = this.getProperties('min', 'max', 'perPage');
-      this.set('min', min - perPage);
-      this.set('max', max - perPage);
-    },
+    }
   }
-});
+
+
+  @action
+  previous() {
+    const { min, perPage, page } = this.getProperties('min', 'perPage', 'page');
+
+    if (page !== 1) {
+      this.set('min', min - perPage);
+      this.set('max', min);
+    }
+  }
+
+
+  @action
+  first() {
+    this.set('min', 0);
+    this.set('max', this.get('perPage'));
+  }
+
+
+  @action
+  last() {
+    const perPage = this.get('perPage');
+    const { length } = this.get('model.raw_data.rows');
+
+    this.set('min', length - (length % perPage));
+    this.set('max', length);
+  }
+
+}

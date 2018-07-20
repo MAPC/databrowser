@@ -27,12 +27,8 @@ export default class extends Route {
     }
 
     // check to see if table_data_browser entry marks it as tabular or not
-    let meta_url
-    if (dataset.get('schemaname') !== 'tabular') {
-      meta_url = `${config.metadataHost}/geospatial?tables=${dataset.get('table_name')}`;
-    } else {
-      meta_url = `${config.metadataHost}/tabular?tables=${dataset.get('table_name')}`;
-    }
+    const tableSchema = dataset.get('schemaname') === 'tabular' ? 'tabular' : 'geospatial';
+    let meta_url = `${config.host}/${tableSchema}?tables=${dataset.get('table_name')}`;
 
     let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${dataset.get('table_name')} limit 50`;
 

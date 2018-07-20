@@ -1,15 +1,23 @@
-<div class='ui container'>
-  <div class="ui four column stackable grid">
-    <div class="four wide column">
-      <div class="ui basic segment scrollable-menus">
-        <h3 class="ui dividing header">
-          Topics
-        </h3>
+<section class="route categories">
+
+  <div class="page-header">
+    <div class="container tight">
+      {{search-bar records=searchables class="lift"}}
+    </div>
+  </div>
+
+  <div class="category-lists">
+    <div class="container tight">
+      <div class="scrollable-menus">
+        <h3>Topics</h3>
+
         {{#liquid-bind model use='toUp'}}
           {{menus-component model=model}}
         {{/liquid-bind}}
       </div>
+
+      {{outlet}}
     </div>
-    {{outlet}}
   </div>
-</div>
+
+</section>

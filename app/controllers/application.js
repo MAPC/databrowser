@@ -1,18 +1,23 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { computed } from '@ember-decorators/object';
+import config from 'databrowser/config/environment';
 
-export default Ember.Controller.extend({
-  queryParams: ['selectedCategory'],
-  selectedCategory: null,
-  primaryCount: 0,
-  searchables: Ember.computed('model', function() {
-    let model = this.get('model');
-    let structured = [];
 
-    model.forEach(function(dataset) {
-      structured.push({ title: dataset.get('menu3'), 
-                        id: dataset.get('id')       });
-    });
+export default class extends Controller {
 
-    return structured;
-  })
-});
+  constructor() {
+    super(...arguments);
+
+    this.queryParams = ['selectedCategory'];
+    this.selectedCategory = null;
+    this.primaryCount = 0;
+    this.hostname = config.host;
+    this.rootURL = config.rootURL;
+  }
+
+
+  @computed('model')
+  get searchables() {
+  }
+
+}

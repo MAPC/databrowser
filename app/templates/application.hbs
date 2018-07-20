@@ -1,22 +1,62 @@
-<div class="ui fixed menu">
-  <div class="ui container">
-      {{#link-to 'application' class='item'}}
-        Data Browser
-      {{/link-to}}
-    <div class="right menu">
-      {{searchable-select content=searchables
-                          sortBy='title'
-                          on-change=(route-action 'selectDataset')
-                          cache=true
-                          prompt='Search Datasets'
-                          class='item'}}
+<header>
+  <div class="container">
+    <nav>
+      <div class="header-brand">
+        <a href="{{hostname}}">
+          <img src="{{rootURL}}assets/images/logo.svg" alt="DataCommon Logo">DataCommon
+        </a>
+      </div>
+
+      <ul>
+        <li>{{link-to 'Datasets' 'application'}}</li>
+        <li><a href="{{hostname}}/community-profiles">Community Profiles</a></li>
+        <li><a href="{{hostname}}/faq">FAQ</a></li>
+      </ul>
+    </nav>
+
+    <button class="login-button">Login</button>
+  </div>
+</header>
+
+<main>
+  {{outlet}}
+</main>
+
+<footer>
+  <div class="container">
+    <img class="mapc-logo" src="{{rootURL}}assets/images/mapc-logo.svg" alt="MAPC Logo" />
+    <ul class="contact-list">
+      <li>
+        <a href="https://goo.gl/maps/5GP7YcEtS1E2">
+          60 Temple Place, Boston, MA 02111
+        </a>
+      </li>
+      <li>
+        <a href="tel:617-451-2770">
+          617-451-2770
+        </a>
+      </li>
+      <li>
+        <a href="mailto:hello@datacommon.org">
+          hello@datacommon.org
+        </a>
+      </li>
+    </ul>
+
+    <div class="social">
+      Follow MAPC:
+      <ul class="social-list">
+        <li>
+          <a href="https://twitter.com/MAPCMetroBoston">
+            <img src="{{rootURL}}assets/images/twitter.svg" alt="MAPC on Twitter" />
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <img src="{{rootURL}}assets/images/instagram.svg" alt="MAPC on Instagram" />
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
-</div>
-
-
-
-<div style="margin-top: 80px;">
-  {{outlet}}
-</div>
-
+</footer>
