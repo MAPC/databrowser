@@ -3,7 +3,6 @@ import config from '../config/environment';
 import { service } from '@ember-decorators/service';
 import { computed, action } from '@ember-decorators/object';
 
-
 export default class extends Controller {
 
   @service ajax
@@ -148,6 +147,37 @@ export default class extends Controller {
     return `${config.dataBrowserEndpoint}${sql}&format=${format}&filename=${tabular}`;
   }
 
+  @action
+  downloadMetadata(metadata) {
+    const keys = Object.keys(metadata[0])
+
+    const values = metadata.map(row => {
+      return keys.map(key => { return row[key]; })
+    })
+
+    const rows = values.map(row => {
+      return row.reduce((a,b) => a + ',' + b);
+    })
+
+
+    const csvHeader = "data:text/csv;charset=utf-8,";
+
+    const documentHeader = keys;
+    const documentRows = rows.reduce((a,b) => `${a}\n${b}`)
+
+    const documentStructure = [[documentHeader], documentRows].reduce((a,b) => a.concat(b));
+    const documentBody = documentStructure.reduce((a,b) => `${a}\n${b}`)
+
+    const csvFile = csvHeader + documentBody;
+    const encoded = encodeURI(csvFile);
+
+    const link = document.createElement('a');
+    link.setAttribute('href', encoded);
+    link.setAttribute('download', `metadata.csv`);
+
+    document.body.appendChild(link);
+    link.click();
+  }
 
   @action
   toggle(year) {

@@ -46,11 +46,9 @@
           Download:
 
           <div class="download-buttons gradient-{{downloadButtonsLength}}">
-            {{#if model.metadata.rows}}
-              <a class="button lift" href={{download_link_metadata}} download={{concat model.dataset.table_name '_meta'}}>
-                meta
-              </a>
-            {{/if}}
+            <a class="button lift" {{action 'downloadMetadata' model.metadata}}>
+              meta
+            </a>
 
             <a class="button lift" href={{download_link}} download={{model.dataset.table_name}}>
               .csv
