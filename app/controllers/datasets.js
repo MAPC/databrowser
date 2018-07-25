@@ -173,7 +173,7 @@ export default class extends Controller {
 
     const link = document.createElement('a');
     link.setAttribute('href', encoded);
-    link.setAttribute('download', `metadata.csv`);
+    link.setAttribute('download', `${metadata[2].details}-metadata.csv`);
 
     document.body.appendChild(link);
     link.click();
