@@ -52,6 +52,9 @@ export default class extends Controller {
     if (this.get('model.years_available') instanceof Ember.Error) {
       return this.get('model.years_available');
     }
+    if(this.get('model.years_available').length == 0) {
+      return this.get('model.raw_data.rows');
+    }
 
     let years_available = this.get('model.years_available')
                               .filterBy('selected', true)
