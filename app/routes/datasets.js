@@ -16,9 +16,10 @@ export default class extends Route {
   model(params) {
     let dataset = this.modelFor('application').findBy('id', params.dataset_id);
     let yearcolumn = dataset.get('yearcolumn');
+    const prqlSchema = dataset.get('schemaname') === 'tabular' ? 'tabular' : 'mapc';
 
     // SQL queries
-    let url = `${config.dataBrowserEndpoint}select * from ${dataset.get('table_name')} `;
+    let url = `${config.dataBrowserEndpoint}select * from ${prqlSchema}.${dataset.get('table_name')} `;
 
     if (dataset.get('hasYears')) {
       url += `order by ${yearcolumn} ASC;`;

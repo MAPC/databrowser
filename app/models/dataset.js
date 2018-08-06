@@ -13,5 +13,8 @@ export default DS.Model.extend({
   source: DS.attr('string'),
   hasYears: Ember.computed('yearcolumn', function() {
     return !!this.get('yearcolumn');
+  }),
+  id: Ember.computed('seq_id', function() {
+    return this.get('seq_id');
   })
 });
