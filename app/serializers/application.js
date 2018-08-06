@@ -5,7 +5,7 @@ export default DS.JSONSerializer.extend({
     return Ember.String.decamelize(key);
   },
 
-  primaryKey: 'cartodb_id',
+  primaryKey: 'seq_id',
 
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {
     payload = payload.rows;
