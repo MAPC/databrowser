@@ -16,12 +16,12 @@
           <li>
             Source: <em>{{model.dataset.source}}</em>
           </li>
-          {{#with (find-by 'name' 'universe' model.metadata.rows) as |universe|}}
+          {{#with (find-by 'name' 'universe' formattedMetadata) as |universe|}}
             <li>
               Universe: <em>{{universe.details}}</em>
             </li>
           {{/with}}
-          {{#with (find-by 'name' 'descriptn' model.metadata.rows) as |descriptn|}}
+          {{#with (find-by 'name' 'descriptn' formattedMetadata) as |descriptn|}}
             <li>
               Description: <em>{{descriptn.details}}</em>
             </li>
@@ -46,7 +46,7 @@
           Download:
 
           <div class="download-buttons gradient-{{downloadButtonsLength}}">
-            <a class="button lift" {{action 'downloadMetadata' model.metadata}}>
+            <a class="button lift" {{action 'downloadMetadata' formattedMetadata}}>
               meta
             </a>
 
@@ -102,7 +102,7 @@
               {{ui-table
                 model=(slice min max selected_rows)
                 fields=model.raw_data.fields
-                metadata=model.metadata
+                metadata=formattedMetadata
               }}
             {{/if}}
           {{/if}}

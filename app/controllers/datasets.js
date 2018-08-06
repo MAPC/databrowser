@@ -34,13 +34,18 @@ export default class extends Controller {
   get formattedMetadata() {
     const metadata = this.get('model.metadata');
 
+
     if ('definition' in metadata) {
-      let columnMetadata = metadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx'];
+      const columnMetadata = metadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx'];
+      const title = {name: "title", alias: "Title", details: metadata['documentation']['metadata']['dataIdInfo']['idCitation']['resTitle']}
+      const tbl_table = {name: "tbl_table", alias: "Table Name", details: metadata['documentation']['metadata']['Esri']['DataProperties']['itemProps']['itemName']}
+      const description = {name: "descriptn", alias: "Description", details: this.strip(metadata['documentation']['metadata']['dataIdInfo']['idAbs'])}
 
-      const transformedMetadata = columnMetadata.filter(column => column.AliasName)
+      const transformedColumnMetadata = columnMetadata.filter(column => column.AliasName)
                                                 .map(column => ({ name: column.Name, alias: column.AliasName }));
+      const combinedMetadata = [title, tbl_table, description, ...transformedColumnMetadata];
 
-      return Ember.A(transformedMetadata);
+      return Ember.A(combinedMetadata);
     } else {
       return metadata;
     }
@@ -52,6 +57,9 @@ export default class extends Controller {
     if (this.get('model.years_available') instanceof Ember.Error) {
       return this.get('model.years_available');
     }
+    if(this.get('model.years_available').length === 0) {
+      return this.get('model.raw_data.rows');
+    }
 
     let years_available = this.get('model.years_available')
                               .filterBy('selected', true)
@@ -61,7 +69,6 @@ export default class extends Controller {
       return years_available.includes(row[this.get('model.dataset.yearcolumn')]);
     });
   }
-
 
   @computed('model.{metadata.rows,raw_data.spatialMetaData}')
   get downloadButtonsLength() {
@@ -120,6 +127,10 @@ export default class extends Controller {
     return `http://oneclick.cartodb.com/?file=${download_link_geojson}&provider=MAPC&logo=http://data.mapc.org/img/mapc-color.png`;
   }
 
+  strip(html) {
+     var doc = new DOMParser().parseFromString(html, 'text/html');
+     return doc.body.textContent || "";
+  }
 
   metadata_query(format = 'json') {
     return `${config.dataBrowserEndpoint} select * from meta_${this.get('model.dataset.table_name')}&format=${format}&filename=meta_${this.get('model.dataset.table_name')}`;
@@ -159,7 +170,6 @@ export default class extends Controller {
       return row.reduce((a,b) => a + ',' + b);
     })
 
-
     const csvHeader = "data:text/csv;charset=utf-8,";
 
     const documentHeader = keys;
@@ -170,10 +180,11 @@ export default class extends Controller {
 
     const csvFile = csvHeader + documentBody;
     const encoded = encodeURI(csvFile);
+    const fileName =`${metadata.find(data => data.alias === 'Title').details}-metadata.csv`;
 
     const link = document.createElement('a');
     link.setAttribute('href', encoded);
-    link.setAttribute('download', `${metadata[2].details}-metadata.csv`);
+    link.setAttribute('download', fileName);
 
     document.body.appendChild(link);
     link.click();
