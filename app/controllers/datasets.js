@@ -109,9 +109,9 @@ export default class extends Controller {
   }
 
 
-  @computed('model', 'model.years_available.@each.selected')
+  @computed('model')
   get download_link_shapefile() {
-    return this.spatial_query('shp');
+    return window.location.origin + '/shapefile?table=' + this.get('model.metadata.definition.DEFeatureClassInfo.Name')
   }
 
 

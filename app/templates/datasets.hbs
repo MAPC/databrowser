@@ -54,14 +54,11 @@
               .csv
             </a>
 
-            {{#if model.raw_data.spatialMetaData}}
+            {{#unless (eq model.dataset.schemaname 'tabular')}}
               <a class="button lift" href={{download_link_shapefile}} download={{model.dataset.table_name}}>
                 .shp
               </a>
-              <a class="button lift" href={{download_link_geojson}} download={{model.dataset.table_name}}>
-                .geojson
-              </a>
-            {{/if}}
+            {{/unless}}
           </div>
         </div>
       </div>
