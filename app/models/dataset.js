@@ -11,6 +11,8 @@ export default DS.Model.extend({
   active: DS.attr('string'),
   yearcolumn: DS.attr('string'),
   source: DS.attr('string'),
+  updated: DS.attr('string'),
+  db_name: DS.attr('string'),
   hasYears: Ember.computed('yearcolumn', function() {
     return !!this.get('yearcolumn');
   })

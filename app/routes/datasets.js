@@ -18,20 +18,34 @@ export default class extends Route {
     let yearcolumn = dataset.get('yearcolumn');
     const prqlSchema = dataset.get('schemaname') === 'tabular' ? 'tabular' : 'mapc';
 
+    let token;
+    switch (dataset.get('db_name')) {
+      case 'ds':
+        token = config.database.dsToken
+        break;
+      case 'gisdata':
+        token = config.database.gisdataToken
+        break;
+      case 'towndata':
+        token = config.database.towndataToken
+        break;
+      default:
+        token = config.database.dsToken
+    }
+
     // SQL queries
     let url = `${config.dataBrowserEndpoint}select * from ${prqlSchema}.${dataset.get('table_name')} `;
 
     if (dataset.get('hasYears')) {
-      url += `order by ${yearcolumn} ASC;`;
+      url += `order by ${yearcolumn} ASC;&token=${token}`;
     } else {
-      url += ' LIMIT 50;';
+      url += ` LIMIT 50;&token=${token}`;
     }
 
     // check to see if table_data_browser entry marks it as tabular or not
     const tableSchema = dataset.get('schemaname') === 'tabular' ? 'tabular' : 'geospatial';
-    let meta_url = `${config.host}/${tableSchema}?tables=${dataset.get('table_name')}`;
-
-    let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${dataset.get('table_name')} limit 50`;
+    let meta_url = `${config.host}${tableSchema}?tables=${dataset.get('table_name')}`;
+    let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${prqlSchema}.${dataset.get('table_name')} limit 50&token=${token}`;
 
     // models
     let raw_data = this.get('ajax').request(url).then(function(raw_data) {
@@ -71,6 +85,7 @@ export default class extends Route {
       delete fields['the_geom_webmercator'];
       delete fields['cartodb_id'];
       delete fields['invalid_the_geom'];
+      delete fields['shape'];
     }
   }
 
