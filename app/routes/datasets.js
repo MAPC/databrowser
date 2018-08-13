@@ -16,7 +16,7 @@ export default class extends Route {
   model(params) {
     let dataset = this.modelFor('application').findBy('id', params.dataset_id);
     let yearcolumn = dataset.get('yearcolumn');
-    const prqlSchema = dataset.get('schemaname') === 'tabular' ? 'tabular' : 'mapc';
+    const prqlSchema = dataset.get('schemaname');
 
     let token;
     switch (dataset.get('db_name')) {
