@@ -18,9 +18,9 @@ export default class extends Controller {
   }
 
 
-  @computed('model.raw_data.rows.length')
+  @computed('selected_rows.length')
   get pageCount() {
-    return Math.ceil(this.get('model.raw_data.rows.length') / this.get('perPage'));
+    return Math.ceil(this.get('selected_rows.length') / this.get('perPage'));
   }
 
 
@@ -234,7 +234,7 @@ export default class extends Controller {
   @action
   last() {
     const perPage = this.get('perPage');
-    const { length } = this.get('model.raw_data.rows');
+    const { length } = this.get('selected_rows');
 
     this.set('min', length - (length % perPage));
     this.set('max', length);
