@@ -6,7 +6,7 @@ module.exports = function(environment) {
     environment,
     rootURL: '/',
     locationType: 'auto',
-    dataBrowserIndex: 'https://prql.mapc.org/?query=select%20*%20from%20tabular._data_browser%20where%20schemaname%3D%27tabular%27%20or%20schemaname%3D%27mapc%27%20and%20active%3D%27Y%27&token=16a2637ee33572e46f5609a578b035dc',
+    dataBrowserIndex: 'https://prql.mapc.org/?token=16a2637ee33572e46f5609a578b035dc&query=SELECT%20*%20FROM%20tabular._data_browser%20WHERE%20active%20%3D%20%27Y%27%20ORDER%20BY%20menu1,menu2,menu3%20ASC',
     dataBrowserEndpoint: 'https://prql.mapc.org/?query=',
     spatialJoinFields: [  { field: 'ct10_id', table: 'census_2010_tracts'},
                           { field: 'muni_id', table: 'ma_municipalities'}
