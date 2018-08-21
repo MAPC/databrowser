@@ -39,7 +39,7 @@ export default class extends Controller {
       const columnMetadata = metadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx'];
       const title = {name: "title", alias: "Title", details: metadata['documentation']['metadata']['dataIdInfo']['idCitation']['resTitle']}
       const tbl_table = {name: "tbl_table", alias: "Table Name", details: metadata['documentation']['metadata']['Esri']['DataProperties']['itemProps']['itemName']}
-      const description = {name: "descriptn", alias: "Description", details: this.strip(metadata['documentation']['metadata']['dataIdInfo']['idAbs'])}
+      const description = {name: "descriptn", alias: "Description", details: this.strip(metadata['documentation']['metadata']['dataIdInfo']['idPurp'])}
 
       const transformedColumnMetadata = columnMetadata.filter(column => column.AliasName)
                                                 .map(column => ({ name: column.Name, alias: column.AliasName }));
