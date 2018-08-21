@@ -55,7 +55,7 @@ export default class extends Controller {
   @computed('model.years_available.@each.selected')
   get selected_rows() {
     if (this.get('model.years_available') instanceof Ember.Error) {
-      return this.get('model.years_available');
+      return this.get('model.raw_data.rows');
     }
     if(this.get('model.years_available').length === 0) {
       return this.get('model.raw_data.rows');
