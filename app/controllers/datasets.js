@@ -18,13 +18,13 @@ export default class extends Controller {
   }
 
 
-  @computed('model.raw_data.rows.length')
+  @computed('selected_rows.length')
   get pageCount() {
-    return Math.ceil(this.get('model.raw_data.rows.length') / this.get('perPage'));
+    return Math.ceil(this.get('selected_rows.length') / this.get('perPage'));
   }
 
 
-  @computed('min', 'max')
+  @computed('min', 'max', 'selected_rows.length')
   get page() {
     return Math.ceil(this.get('max') / this.get('perPage'));
   }
@@ -193,6 +193,15 @@ export default class extends Controller {
   @action
   toggle(year) {
     year.toggleProperty('selected');
+    const {
+      max,
+      perPage
+    } = this.getProperties('max', 'perPage');
+
+    if(max > this.get('selected_rows.length')) {
+      this.set('max', this.get('selected_rows.length'));
+      this.set('min', this.get('selected_rows.length') - perPage)
+    }
   }
 
 
@@ -234,7 +243,7 @@ export default class extends Controller {
   @action
   last() {
     const perPage = this.get('perPage');
-    const { length } = this.get('model.raw_data.rows');
+    const { length } = this.get('selected_rows');
 
     this.set('min', length - (length % perPage));
     this.set('max', length);
