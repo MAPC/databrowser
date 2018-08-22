@@ -34,7 +34,7 @@ export default class extends Controller {
   get formattedMetadata() {
     const metadata = this.get('model.metadata');
 
-    if (typeof metadata != 'undefined' && 'definition' in metadata) {
+    if (metadata && 'definition' in metadata) {
       const columnMetadata = metadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx'];
       const title = {name: "title", alias: "Title", details: metadata['documentation']['metadata']['dataIdInfo']['idCitation']['resTitle']}
       const tbl_table = {name: "tbl_table", alias: "Table Name", details: metadata['documentation']['metadata']['Esri']['DataProperties']['itemProps']['itemName']}
