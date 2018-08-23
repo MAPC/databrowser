@@ -45,7 +45,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-* `ember deploy staging` to build the app and deploy it to the staging website http://staging.data-browser.mapc.org/
+* `ember deploy staging` to build the app and deploy it to the staging website
 
 ## Further Reading / Useful Links
 
