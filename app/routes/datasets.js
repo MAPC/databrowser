@@ -43,8 +43,8 @@ export default class extends Route {
     }
 
     // check to see if table_data_browser entry marks it as tabular or not
-    const tableSchema = dataset.get('schemaname') === 'tabular' ? 'tabular' : 'geospatial';
-    let meta_url = `${config.host}/${tableSchema}?tables=${dataset.get('table_name')}`;
+    const tableDatabase = dataset.get('db_name');
+    let meta_url = `${config.host}/${tableDatabase}?tables=${dataset.get('table_name')}`;
     let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${prqlSchema}.${dataset.get('table_name')} limit 50&token=${token}`;
 
     // models

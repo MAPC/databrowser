@@ -38,7 +38,7 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    ENV.host = 'https://staging.datacommon.mapc.org';
+    ENV.host = 'http://localhost:9292';
   }
 
   if (environment === 'staging') {
