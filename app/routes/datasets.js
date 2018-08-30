@@ -37,7 +37,7 @@ export default class extends Route {
     let url = `${config.dataBrowserEndpoint}select * from ${prqlSchema}.${dataset.get('table_name')} `;
 
     if (dataset.get('hasYears')) {
-      url += `order by ${yearcolumn} ASC;&token=${token}`;
+      url += `order by ${yearcolumn} ASC LIMIT 25000;&token=${token}`;
     } else {
       url += ` LIMIT 50;&token=${token}`;
     }
