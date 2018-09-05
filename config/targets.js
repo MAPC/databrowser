@@ -8,9 +8,8 @@ const browsers = [
 
 const isCI = !!process.env.CI;
 const isProduction = process.env.EMBER_ENV === 'production';
-const isStaging = process.env.EMBER_ENV === 'staging'
 
-if (isCI || isProduction || isStaging) {
+if (isCI || isProduction) {
   browsers.push('ie 11');
 }
 
