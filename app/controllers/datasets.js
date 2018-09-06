@@ -87,18 +87,7 @@ export default class extends Controller {
 
   @computed('model', 'model.years_available.@each.selected')
   get download_link() {
-    let yearsSelected = this.get('model.years_available') || [];
-    if (Ember.compare(Ember.Error, yearsSelected) !== 0) {
-      yearsSelected = yearsSelected.filterBy('selected', true);
-    }
-
-    let filterToken = '';
-    if (this.get('model.dataset.hasYears') && yearsSelected[0]) {
-      let str = yearsSelected.map((el) => { return el.year }).join("','");
-      filterToken = ` WHERE ${this.get('model.dataset.yearcolumn')} IN ('${str}')`;
-    }
-
-    return `${config.dataBrowserEndpoint} select * from ${this.get('model.dataset.table_name')} ${filterToken}&format=csv&filename=${this.get('model.dataset.table_name')}`;
+    return window.location.origin + '/csv?table=' + this.get('model.dataset.schemaname') + '.' + this.get('model.dataset.table_name') + '&database=' + this.get('model.dataset.db_name');
   }
 
 
