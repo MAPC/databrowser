@@ -15,7 +15,8 @@
     "lint:js": "eslint ./*.js app blueprints config lib server tests",
     "start": "ember serve",
     "test": "ember test",
-    "staging": "ember build --environment production && rsync -r dist/* data-browser@prep.mapc.org:/var/www/data-browser"
+    "staging": "ember build --environment production && rsync -r dist/* data-browser@prep.mapc.org:/var/www/data-browser",
+    "production": "ember build --environment production && rsync -r dist/* databrowser@live.mapc.org:/var/www/databrowser"
   },
   "devDependencies": {
     "@ember-decorators/babel-transforms": "^2.0.1",
