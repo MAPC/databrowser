@@ -33,7 +33,6 @@ export default class extends Controller {
   @computed('model')
   get formattedMetadata() {
     const metadata = this.get('model.metadata');
-
     if (metadata && 'definition' in metadata) {
       const columnMetadata = metadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx'];
       const title = {name: "title", alias: "Title", details: metadata['documentation']['metadata']['dataIdInfo']['idCitation']['resTitle']}
@@ -99,7 +98,7 @@ export default class extends Controller {
 
   @computed('model')
   get download_link_shapefile() {
-    return window.location.origin + '/shapefile?table=' + this.get('model.metadata.definition.DEFeatureClassInfo.Name')
+    return window.location.origin + '/shapefile?table=' + this.get('model.metadata.definition.DEFeatureClassInfo.Name') + '&database=' + this.get('model.dataset.db_name');
   }
 
 
