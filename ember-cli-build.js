@@ -6,6 +6,9 @@ module.exports = function(defaults) {
 
   const config = {
     hinting: process.env.EMBER_ENV !== 'test',
+    fingerprint: {
+        enabled: false,
+      },
   };
 
   let app = new EmberApp(defaults, (
