@@ -18,6 +18,10 @@ module.exports = function(defaults) {
       babel: {
         sourceMaps: 'inline',
       },
+      minifyCSS: {
+        enabled: false,
+        options: {}
+      },
     } : config
   ));
 
