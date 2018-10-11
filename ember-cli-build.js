@@ -6,6 +6,10 @@ module.exports = function(defaults) {
 
   const config = {
     hinting: process.env.EMBER_ENV !== 'test',
+    minifyCSS: {
+      enabled: false,
+      options: {}
+    },
     fingerprint: {
         enabled: false,
       },
@@ -17,10 +21,6 @@ module.exports = function(defaults) {
       ...config,
       babel: {
         sourceMaps: 'inline',
-      },
-      minifyCSS: {
-        enabled: false,
-        options: {}
       },
     } : config
   ));
