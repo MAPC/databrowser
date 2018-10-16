@@ -1,19 +1,20 @@
 <header>
   <div class="container">
     <nav>
-      <div class="header-brand">
-        <a href="{{hostname}}">
-          <img src="{{rootURL}}assets/images/logo.svg" alt="DataCommon Logo">DataCommon
-        </a>
+      <div class="scroll-wrapper">
+        <div class="header-brand">
+          <a href="{{hostname}}">
+            <img src="{{rootURL}}assets/images/logo.svg" alt="DataCommon Logo">DataCommon
+          </a>
+        </div>
+
+        <ul>
+          <li>{{link-to 'Datasets' 'application'}}</li>
+          <li><a href="{{hostname}}/#community-profiles">Community Profiles</a></li>
+        </ul>
       </div>
-
-      <ul>
-        <li>{{link-to 'Datasets' 'application'}}</li>
-        <li><a href="{{hostname}}/#community-profiles">Community Profiles</a></li>
-      </ul>
+      <button class="login-button">Login</button>
     </nav>
-
-    <button class="login-button">Login</button>
   </div>
 </header>
 
