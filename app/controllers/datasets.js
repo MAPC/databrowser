@@ -30,7 +30,7 @@ export default class extends Controller {
   }
 
 
-  @computed('model')
+  @computed('model.metadata')
   get formattedMetadata() {
     const metadata = this.get('model.metadata');
     if (metadata && 'definition' in metadata) {
@@ -47,6 +47,24 @@ export default class extends Controller {
     } else {
       return metadata;
     }
+  }
+
+
+  @computed('formattedMetadata.[]', 'model.raw_data.fields')
+  get fields() {
+    const metadata = (this.get('formattedMetadata') || []).map(x => x.name);
+    const fieldNames = Object.keys(this.get('model.raw_data.fields') || {});
+    const fields = [];
+
+    fieldNames.forEach(field => {
+      var fieldMetaIndex = metadata.indexOf(field);
+
+      if (fieldMetaIndex !== -1) {
+        fields[fieldMetaIndex] = field;
+      }
+    });
+
+    return fields.filter(x => x);
   }
 
 
