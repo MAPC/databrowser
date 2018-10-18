@@ -98,7 +98,7 @@
             {{else}}
               {{ui-table
                 model=(slice min max selected_rows)
-                fields=model.raw_data.fields
+                fields=fields
                 metadata=formattedMetadata
               }}
             {{/if}}
