@@ -2,9 +2,15 @@
   {{#each primary as |category|}}
     <li>
       {{#link-to subRoute category.key}}
-        {{category.key}}
+        <div class="category-item-content">
+          <div class="category-item-column">
+            {{category.key}}
+          </div>
 
-        <small>{{category.values.length}} datasets</small>
+          <div class="category-item-column">
+            <small>{{category.values.length}} datasets</small>
+          </div>
+        </div>
       {{/link-to}}
     </li>
   {{/each}}
