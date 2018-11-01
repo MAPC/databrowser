@@ -14,64 +14,68 @@
       <div class="dataset-details">
         <h2>{{model.dataset.menu3}}</h2>
 
-        <ul class="table-meta">
-          <li>
-            Table: <em>{{model.dataset.table_name}}</em>
-          </li>
-          <li>
-            Source: <em>{{model.dataset.source}}</em>
-          </li>
-          {{#with (find-by "name" "universe" formattedMetadata) as |universe|}}
-            <li>
-              Universe: <em>{{universe.details}}</em>
-            </li>
-          {{/with}}
-          {{#with (find-by "name" "descriptn" formattedMetadata) as |descriptn|}}
-            <li>
-              Description: <em>{{descriptn.details}}</em>
-            </li>
-          {{/with}}
-        </ul>
-
-        {{#if model.years_available.length}}
-          <div class="year-filter">
-            <span>Select Years:</span>
-
-            <ul>
-              {{#each model.years_available as |year|}}
-                <li class={{if year.selected "selected"}} onclick={{action "toggle" year}}>
-                  {{year.year}}
+        <div class="dataset-details-content">
+          <div class="details-content-column">
+            <ul class="table-meta">
+              <li>
+                Table: <em>{{model.dataset.table_name}}</em>
+              </li>
+              <li>
+                Source: <em>{{model.dataset.source}}</em>
+              </li>
+              {{#with (find-by "name" "universe" formattedMetadata) as |universe|}}
+                <li>
+                  Universe: <em>{{universe.details}}</em>
                 </li>
-              {{/each}}
+              {{/with}}
+              {{#with (find-by "name" "descriptn" formattedMetadata) as |descriptn|}}
+                <li>
+                  Description: <em>{{descriptn.details}}</em>
+                </li>
+              {{/with}}
             </ul>
+
+            {{#if model.years_available.length}}
+              <div class="year-filter">
+                <span>Select Years:</span>
+
+                <ul>
+                  {{#each model.years_available as |year|}}
+                    <li class={{if year.selected "selected"}} onclick={{action "toggle" year}}>
+                      {{year.year}}
+                    </li>
+                  {{/each}}
+                </ul>
+              </div>
+            {{/if}}
           </div>
-        {{/if}}
 
-        <div class="download-links">
-          Download:
+          <div class="details-content-column download-links">
+            Download:
 
-          <div class="download-buttons gradient-{{downloadButtonsLength}}">
-            <a class="button lift" {{action "downloadMetadata" formattedMetadata}}>
-              meta
-            </a>
+            <div class="download-buttons gradient-{{downloadButtonsLength}}">
+              <a class="button lift" {{action "downloadMetadata" formattedMetadata}}>
+                meta
+              </a>
 
-            <a
-              class="button lift"
-              href={{download_link}}
-              download={{model.dataset.table_name}}
-            >
-              .csv
-            </a>
-
-            {{#if (not (eq model.dataset.schemaname "tabular"))}}
               <a
                 class="button lift"
-                href={{download_link_shapefile}}
+                href={{download_link}}
                 download={{model.dataset.table_name}}
               >
-                .shp
+                .csv
               </a>
-            {{/if}}
+
+              {{#if (not (eq model.dataset.schemaname "tabular"))}}
+                <a
+                  class="button lift"
+                  href={{download_link_shapefile}}
+                  download={{model.dataset.table_name}}
+                >
+                  .shp
+                </a>
+              {{/if}}
+            </div>
           </div>
         </div>
       </div>
