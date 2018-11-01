@@ -2,7 +2,12 @@
 
   <div class="page-header">
     <div class="container back-link">
-      {{link-to '< Back' 'categories.sub-categories.datasets' model.dataset.menu1 model.dataset.menu2}}
+      {{link-to
+        "< Back"
+        "categories.sub-categories.datasets"
+        model.dataset.menu1
+        model.dataset.menu2
+      }}
     </div>
 
     <div class="container tight">
@@ -16,12 +21,12 @@
           <li>
             Source: <em>{{model.dataset.source}}</em>
           </li>
-          {{#with (find-by 'name' 'universe' formattedMetadata) as |universe|}}
+          {{#with (find-by "name" "universe" formattedMetadata) as |universe|}}
             <li>
               Universe: <em>{{universe.details}}</em>
             </li>
           {{/with}}
-          {{#with (find-by 'name' 'descriptn' formattedMetadata) as |descriptn|}}
+          {{#with (find-by "name" "descriptn" formattedMetadata) as |descriptn|}}
             <li>
               Description: <em>{{descriptn.details}}</em>
             </li>
@@ -34,7 +39,7 @@
 
             <ul>
               {{#each model.years_available as |year|}}
-                <li class="{{if year.selected 'selected'}}" onclick={{action 'toggle' year}}>
+                <li class={{if year.selected "selected"}} onclick={{action "toggle" year}}>
                   {{year.year}}
                 </li>
               {{/each}}
@@ -46,19 +51,27 @@
           Download:
 
           <div class="download-buttons gradient-{{downloadButtonsLength}}">
-            <a class="button lift" {{action 'downloadMetadata' formattedMetadata}}>
+            <a class="button lift" {{action "downloadMetadata" formattedMetadata}}>
               meta
             </a>
 
-            <a class="button lift" href={{download_link}} download={{model.dataset.table_name}}>
+            <a
+              class="button lift"
+              href={{download_link}}
+              download={{model.dataset.table_name}}
+            >
               .csv
             </a>
 
-            {{#unless (eq model.dataset.schemaname 'tabular')}}
-              <a class="button lift" href={{download_link_shapefile}} download={{model.dataset.table_name}}>
+            {{#if (not (eq model.dataset.schemaname "tabular"))}}
+              <a
+                class="button lift"
+                href={{download_link_shapefile}}
+                download={{model.dataset.table_name}}
+              >
                 .shp
               </a>
-            {{/unless}}
+            {{/if}}
           </div>
         </div>
       </div>
@@ -78,7 +91,7 @@
                   <div class="sub header">
                     More detail:
                     {{#each error.detail.error as |errorMessage|}}
-                      {{errorMessage}}; we probably just need to sync and/or update permissions for this dataset.<br/><br/> We've been notified of the error and will work on it. If you'd like to contact us, we can be reached at <a href="mailto:data@mapc.org">data@mapc.org</a>
+                      {{errorMessage}}; we probably just need to sync and/or update permissions for this dataset.<br><br> We've been notified of the error and will work on it. If you'd like to contact us, we can be reached at <a href="mailto:data@mapc.org">data@mapc.org</a>
                     {{/each}}
                   </div>
                 </div>
@@ -91,7 +104,7 @@
                 <div class="content">
                   Oops.
                   <div class="sub header">
-                    We probably just need to sync and/or update permissions for this dataset.<br/><br/> We've been notified of the error and will work on it. If you'd like to contact us, we can be reached at <a href="mailto:data@mapc.org">data@mapc.org</a>
+                    We probably just need to sync and/or update permissions for this dataset.<br><br> We've been notified of the error and will work on it. If you'd like to contact us, we can be reached at <a href="mailto:data@mapc.org">data@mapc.org</a>
                   </div>
                 </div>
               </h3>
@@ -108,10 +121,10 @@
 
       {{#if (gt model.raw_data.rows.length perPage)}}
         <div class="pagination">
-          <div class="button-wrapper lift {{unless min 'disabled'}}">
-            <button onclick={{action 'first'}}>&lt;&lt;</button>
+          <div class="button-wrapper lift {{unless min "disabled"}}">
+            <button onclick={{action "first"}}>&lt;&lt;</button>
             <span class="separator"></span>
-            <button onclick={{action 'previous'}}>&lt;</button>
+            <button onclick={{action "previous"}}>&lt;</button>
           </div>
 
           <div class="page-counter">
@@ -120,10 +133,12 @@
             {{pageCount}}
           </div>
 
-          <div class="button-wrapper lift {{if (gte max model.raw_data.rows.length) 'disabled'}}">
-            <button onclick={{action 'next'}}>&gt;</button>
+          <div
+            class="button-wrapper lift {{if (gte max model.raw_data.rows.length) "disabled"}}"
+          >
+            <button onclick={{action "next"}}>&gt;</button>
             <span class="separator"></span>
-            <button onclick={{action 'last'}}>&gt;&gt;</button>
+            <button onclick={{action "last"}}>&gt;&gt;</button>
           </div>
         </div>
       {{/if}}

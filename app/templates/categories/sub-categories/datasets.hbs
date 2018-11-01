@@ -1,15 +1,15 @@
 <div class="scrollable-menus">
   <h3>Datasets</h3>
 
-  {{#liquid-bind model use='toUp'}}
+  {{#liquid-bind model use="toUp"}}
     <div class="component menus-component">
       <ul class="styled lift">
         {{#each model as |dataset|}}
           <li>
-            {{link-to dataset.menu3 'datasets' dataset.id}}
+            {{link-to dataset.menu3 "datasets" dataset.id}}
           </li>
         {{/each}}
-      </ul>  
+      </ul>
     </div>
   {{/liquid-bind}}
 </div>

@@ -2,8 +2,8 @@
   <tr>
     {{#each fields as |field|}}
       <th>
-        {{#if (find-by 'name' field metadata)}}
-          {{#with (find-by 'name' field metadata) as |meta|}}
+        {{#if (find-by "name" field metadata)}}
+          {{#with (find-by "name" field metadata) as |meta|}}
             {{meta.alias}}
           {{/with}}
         {{else}}

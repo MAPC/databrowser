@@ -3,13 +3,13 @@
     <nav>
       <div class="scroll-wrapper">
         <div class="header-brand">
-          <a href="{{hostname}}">
+          <a href={{hostname}}>
             <img src="{{rootURL}}assets/images/logo.svg" alt="DataCommon Logo">DataCommon
           </a>
         </div>
 
         <ul>
-          <li>{{link-to 'Datasets' 'application'}}</li>
+          <li>{{link-to "Datasets" "application"}}</li>
           <li><a href="{{hostname}}/#community-profiles">Community Profiles</a></li>
         </ul>
       </div>
@@ -25,7 +25,11 @@
 <footer>
   <div class="container">
     <a href="https://mapc.org">
-      <img class="mapc-logo" src="{{rootURL}}assets/images/mapc-logo.svg" alt="MAPC Logo" />
+      <img
+        class="mapc-logo"
+        src="{{rootURL}}assets/images/mapc-logo.svg"
+        alt="MAPC Logo"
+      >
     </a>
 
     <ul class="contact-list">
@@ -50,18 +54,30 @@
       Follow MAPC:
       <ul class="social-list">
         <li>
-          <a href="https://twitter.com/MAPCMetroBoston" target="_blank">
-            <img src="{{rootURL}}assets/images/twitter.svg" alt="MAPC on Twitter" />
+          <a
+            href="https://twitter.com/MAPCMetroBoston"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="{{rootURL}}assets/images/twitter.svg" alt="MAPC on Twitter">
           </a>
         </li>
         <li>
-          <a href="https://instagram.com/mapcmetroboston" target="_blank">
-            <img src="{{rootURL}}assets/images/instagram.svg" alt="MAPC on Instagram" />
+          <a
+            href="https://instagram.com/mapcmetroboston"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="{{rootURL}}assets/images/instagram.svg" alt="MAPC on Instagram">
           </a>
         </li>
         <li>
-          <a href="https://facebook.com/MAPCMetroBoston" target="_blank">
-            <img src="{{rootURL}}assets/images/facebook.svg" alt="MAPC on Facebook" />
+          <a
+            href="https://facebook.com/MAPCMetroBoston"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img src="{{rootURL}}assets/images/facebook.svg" alt="MAPC on Facebook">
           </a>
         </li>
       </ul>

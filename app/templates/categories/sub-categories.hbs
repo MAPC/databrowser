@@ -1,10 +1,14 @@
 <div class="scrollable-menus">
   <h3>Subtopics</h3>
 
-  {{#liquid-bind model use='toUp'}}  
-    {{menus-component model=model 
-      groupColumn='menu2'  
-      subRoute='categories.sub-categories.datasets'
+  {{#liquid-bind
+    model
+    use="toUp"
+  }}
+    {{menus-component
+      model=model
+      groupColumn="menu2"
+      subRoute="categories.sub-categories.datasets"
     }}
   {{/liquid-bind}}
 </div>
