@@ -1,26 +1,26 @@
 <thead>
   <tr>
-    {{#each-in fields as |key value|}}
+    {{#each fields as |field|}}
       <th>
-        {{#if (find-by 'name' key metadata)}}
-          {{#with (find-by 'name' key metadata) as |meta|}}
+        {{#if (find-by 'name' field metadata)}}
+          {{#with (find-by 'name' field metadata) as |meta|}}
             {{meta.alias}}
           {{/with}}
         {{else}}
-          {{key}}
+          {{field}}
         {{/if}}
       </th>
-    {{/each-in}}
+    {{/each}}
   </tr>
 </thead>
 <tbody>
   {{#each model as |item|}}
     <tr>
-      {{#each-in fields as |key value|}}
+      {{#each fields as |field|}}
         <td>
-          {{get item key}}
+          {{get item field}}
         </td>
-      {{/each-in}}
+      {{/each}}
     </tr>
   {{/each}}
 </tbody>
