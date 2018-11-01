@@ -18,20 +18,7 @@ export default class extends Route {
     let yearcolumn = dataset.get('yearcolumn');
     const prqlSchema = dataset.get('schemaname');
 
-    let token;
-    switch (dataset.get('db_name')) {
-      case 'ds':
-        token = config.database.dsToken
-        break;
-      case 'gisdata':
-        token = config.database.gisdataToken
-        break;
-      case 'towndata':
-        token = config.database.towndataToken
-        break;
-      default:
-        token = config.database.dsToken
-    }
+    const token = config.database[`${dataset.get('db_name')}Token`] || config.database.dsToken;
 
     // SQL queries
     let url = `${config.dataBrowserEndpoint}select * from ${prqlSchema}.${dataset.get('table_name')} `;
@@ -44,30 +31,42 @@ export default class extends Route {
 
     // check to see if table_data_browser entry marks it as tabular or not
     const tableDatabase = dataset.get('db_name');
-    let meta_url = `${config.host}/${tableDatabase}?tables=${dataset.get('table_name')}`;
-    let years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${prqlSchema}.${dataset.get('table_name')} limit 50&token=${token}`;
+    const meta_url = `${config.host}/${tableDatabase}?tables=${dataset.get('table_name')}`;
+    const years_url = `${config.dataBrowserEndpoint}select distinct(${yearcolumn}) from ${prqlSchema}.${dataset.get('table_name')} limit 50&token=${token}`;
 
     // models
-    let raw_data = this.get('ajax').request(url).then(function(raw_data) {
-      return imputeSpatiality(raw_data);
-    }).catch(handleErrors);
+    const raw_data = (
+      this.get('ajax')
+        .request(url)
+        .then(imputeSpatiality)
+        .catch(handleErrors)
+    );
 
-    let metadata = this.get('ajax').request(meta_url).then(function(metadata) {
-      return metadata[dataset.get('table_name')];
-    }).catch(handleErrors);
+    const metadata = (
+      this.get('ajax')
+        .request(meta_url)
+        .then(metadata => metadata[dataset.get('table_name')])
+        .catch(handleErrors)
+    );
 
-    let years_available = this.get('ajax').request(years_url).then(function(years) {
-      if (dataset.get('hasYears')) {
-        let keys = years.rows.mapBy(yearcolumn).sort().reverse();
-        let obj = keys.map((el, index) => {
-          let isSelected = (index === 0);
-          return EmberObject.create({ year: el, selected: isSelected });
-        });
-        return obj;
-      } else {
-        return A([]);
-      }
-    }).catch(handleErrors);
+    const years_available = yearcolumn ? (
+      this.get('ajax')
+        .request(years_url)
+        .then(years => {
+          if (dataset.get('hasYears')) {
+            const keys = years.rows.mapBy(yearcolumn).sort().reverse();
+            const obj = keys.map((el, index) => {
+              var isSelected = (index === 0);
+              return EmberObject.create({ year: el, selected: isSelected });
+            });
+            return obj;
+          }
+          else {
+            return A([]);
+          }
+        })
+        .catch(handleErrors)
+    ): null;
 
     return RSVP.hash({
       dataset,
