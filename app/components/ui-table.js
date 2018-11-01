@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { tagName, classNames } from '@meber-decorators/component';
+import { tagName, classNames } from '@ember-decorators/component';
 
 
 @tagName('table')
