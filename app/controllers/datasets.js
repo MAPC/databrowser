@@ -1,7 +1,10 @@
+import { A } from '@ember/array';
+import EmberError from '@ember/error';
 import Controller from '@ember/controller';
 import config from '../config/environment';
 import { service } from '@ember-decorators/service';
 import { computed, action } from '@ember-decorators/object';
+
 
 export default class extends Controller {
 
@@ -33,6 +36,7 @@ export default class extends Controller {
   @computed('model')
   get formattedMetadata() {
     const metadata = this.get('model.metadata');
+
     if (metadata && 'definition' in metadata) {
       const columnMetadata = metadata['definition']['DEFeatureClassInfo']['GPFieldInfoExs']['GPFieldInfoEx'];
       const title = {name: "title", alias: "Title", details: metadata['documentation']['metadata']['dataIdInfo']['idCitation']['resTitle']}
@@ -43,8 +47,9 @@ export default class extends Controller {
                                                 .map(column => ({ name: column.Name, alias: column.AliasName }));
       const combinedMetadata = [title, tbl_table, description, ...transformedColumnMetadata];
 
-      return Ember.A(combinedMetadata);
-    } else {
+      return A(combinedMetadata);
+    }
+    else {
       return metadata;
     }
   }
@@ -52,7 +57,7 @@ export default class extends Controller {
 
   @computed('model.years_available.@each.selected')
   get selected_rows() {
-    if (this.get('model.years_available') instanceof Ember.Error) {
+    if (this.get('model.years_available') instanceof EmberError) {
       return this.get('model.raw_data.rows');
     }
     if(this.get('model.years_available').length === 0) {

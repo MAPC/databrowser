@@ -17,6 +17,9 @@ module.exports = {
   },
   rules: {
   },
+  globals: {
+    ga: true,
+  },
   overrides: [
     // node files
     {

@@ -1,13 +1,16 @@
-import Ember from 'ember';
-import config from '../config/environment';
+import Route from '@ember/routing/route';
+import { action } from '@ember-decorators/object';
 
-export default Ember.Route.extend({
+
+export default class extends Route {
+
   model() {
     return this.store.findAll('dataset');
-  },
-  actions: {
-    selectDataset(dataset) {
-      this.transitionTo('datasets', dataset.id);
-    }
   }
-});
+
+  @action
+  selectDataset(dataset) {
+    this.transitionTo('datasets', dataset.id);
+  }
+
+}

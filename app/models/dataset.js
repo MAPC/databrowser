@@ -1,19 +1,25 @@
 import DS from 'ember-data';
-import config from '../config/environment';
+import { attr } from '@ember-decorators/data';
+import { computed } from '@ember-decorators/object';
 
-export default DS.Model.extend({
-  menu1: DS.attr('string'),
-  menu2: DS.attr('string'),
-  menu3: DS.attr('string'),
-  table_name: DS.attr('string'),
-  themeid: DS.attr('number'),
-  schemaname: DS.attr('string'),
-  active: DS.attr('string'),
-  yearcolumn: DS.attr('string'),
-  source: DS.attr('string'),
-  updated: DS.attr('string'),
-  db_name: DS.attr('string'),
-  hasYears: Ember.computed('yearcolumn', function() {
+
+export default class extends DS.Model {
+
+  @attr('string') menu1
+  @attr('string') menu2
+  @attr('string') menu3
+  @attr('string') table_name
+  @attr('string') themeid
+  @attr('string') schemaname
+  @attr('string') active
+  @attr('string') yearcolumn
+  @attr('string') source
+  @attr('string') updated
+  @attr('string') db_name
+
+  @computed('yearcolumn')
+  get hasYears() {
     return !!this.get('yearcolumn');
-  })
-});
+  }
+
+}

@@ -1,8 +1,11 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+
+export default class extends Route {
+
   model(params) {
-    let parent = this.modelFor('categories.sub-categories');
+    const parent = this.modelFor('categories.sub-categories');
     return parent.filterBy('menu2', params.parentcategory_id);
   }
-});
+
+}
