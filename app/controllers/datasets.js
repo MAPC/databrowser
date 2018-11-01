@@ -247,7 +247,7 @@ export default class extends Controller {
   previous() {
     const { min, perPage, page } = this.getProperties('min', 'perPage', 'page');
 
-    if (page !== 1) {
+    if (page > 1) {
       this.set('min', min - perPage);
       this.set('max', min);
     }
@@ -256,8 +256,10 @@ export default class extends Controller {
 
   @action
   first() {
-    this.set('min', 0);
-    this.set('max', this.get('perPage'));
+    if (this.get('page') > 1) {
+      this.set('min', 0);
+      this.set('max', this.get('perPage'));
+    }
   }
 
 
@@ -266,8 +268,10 @@ export default class extends Controller {
     const perPage = this.get('perPage');
     const { length } = this.get('selected_rows');
 
-    this.set('min', length - (length % perPage));
-    this.set('max', length);
+    if (this.get('pageCount') !== 0) {
+      this.set('min', length - (length % perPage));
+      this.set('max', length);
+    }
   }
 
 }
