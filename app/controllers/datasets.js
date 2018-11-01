@@ -72,22 +72,26 @@ export default class extends Controller {
     return fields.filter(x => x);
   }
 
-
   @computed('model.years_available.@each.selected')
+  get yearsAvailable() {
+    return this.get('model.years_available')
+                .filterBy('selected', true)
+                .map(selected => selected.year);
+  }
+
+
+  @computed('yearsAvailable.[]')
   get selected_rows() {
     if (this.get('model.years_available') instanceof EmberError) {
       return this.get('model.raw_data.rows');
     }
+
     if(this.get('model.years_available').length === 0) {
       return this.get('model.raw_data.rows');
     }
 
-    let years_available = this.get('model.years_available')
-                              .filterBy('selected', true)
-                              .map(selected => selected.year);
-
     return this.get('model.raw_data.rows').filter((row) => {
-      return years_available.includes(row[this.get('model.dataset.yearcolumn')]);
+      return this.get('yearsAvailable').includes(row[this.get('model.dataset.yearcolumn')]);
     });
   }
 
@@ -202,15 +206,22 @@ export default class extends Controller {
 
   @action
   toggle(year) {
-    year.toggleProperty('selected');
-    const {
-      max,
-      perPage
-    } = this.getProperties('max', 'perPage');
+    const { max, perPage } = this.getProperties('max', 'perPage');
+    const rowLength = this.get('selected_rows.length');
 
-    if(max > this.get('selected_rows.length')) {
-      this.set('max', this.get('selected_rows.length'));
-      this.set('min', this.get('selected_rows.length') - perPage)
+    year.toggleProperty('selected');
+
+    if (this.get("yearsAvailable.length") === 0) {
+      this.set('max', 0);
+      this.set('min', 0);
+    }
+    else if (max > rowLength) {
+      this.set('max', rowLength);
+      this.set('min', rowLength - perPage);
+    }
+    else {
+      this.set('max', perPage);
+      this.set('min', 0);
     }
   }
 
