@@ -128,7 +128,7 @@ export default class extends Controller {
       db_name,
     } = this.get('model.dataset').getProperties('schemaname', 'table_name', 'db_name');
 
-    return `${window.location.origin}/csv?table=${schemaname}.${table_name}&database=${db_name}${this.get('yearsParam')}`;
+    return `${config.host}/csv?table=${schemaname}.${table_name}&database=${db_name}${this.get('yearsParam')}`;
   }
 
 
@@ -137,7 +137,7 @@ export default class extends Controller {
     const table_name = this.get('model.metadata.definition.DEFeatureClassInfo.Name')
     const db_name = this.get('model.dataset.db_name');
 
-    return `${window.location.origin}/shapefile?table=${table_name}&database=${db_name}${this.get('yearsParam')}`;
+    return `${config.host}/shapefile?table=${table_name}&database=${db_name}${this.get('yearsParam')}`;
   }
 
 
