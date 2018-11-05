@@ -53,7 +53,7 @@ export default class extends Route {
       this.get('ajax')
         .request(years_url)
         .then(years => {
-          if (dataset.get('hasYears')) {
+          if (dataset.get('hasYears') && years.rows) {
             const keys = years.rows.mapBy(yearcolumn).sort().reverse();
             const obj = keys.map((el, index) => {
               var isSelected = (index === 0);

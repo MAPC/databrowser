@@ -83,7 +83,7 @@ export default class extends Controller {
       return this.get('model.raw_data.rows');
     }
     if((this.get('model.years_available') || []).length === 0) {
-      return this.get('model.raw_data.rows');
+      return this.get('model.raw_data.rows') || [];
     }
 
     let years_available = this.get('model.years_available')
