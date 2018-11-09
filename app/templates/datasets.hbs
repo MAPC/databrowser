@@ -134,7 +134,7 @@
           </div>
 
           <div
-            class="button-wrapper lift {{if (gte max model.raw_data.rows.length) "disabled"}}"
+            class="button-wrapper lift {{if (gte max selected_rows.length) "disabled"}}"
           >
             <button onclick={{action "next"}}>&gt;</button>
             <span class="separator"></span>
