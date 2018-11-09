@@ -54,8 +54,11 @@
             Download:
 
             <div class="download-buttons gradient-{{downloadButtonsLength}}">
-              <a class="button lift" {{action "downloadMetadata" formattedMetadata}}>
-                meta
+              <a 
+                class="button lift" 
+                {{action "downloadMetadata" formattedMetadata}}
+              >
+                metadata
               </a>
 
               <a
@@ -138,7 +141,7 @@
           </div>
 
           <div
-            class="button-wrapper lift {{if (gte max model.raw_data.rows.length) "disabled"}}"
+            class="button-wrapper lift {{if (gte max selected_rows.length) "disabled"}}"
           >
             <button onclick={{action "next"}}>&gt;</button>
             <span class="separator"></span>
