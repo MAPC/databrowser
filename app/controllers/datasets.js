@@ -111,21 +111,39 @@ export default class extends Controller {
   }
 
 
-  @computed('model', 'model.years_available.@each.selected')
+  @computed('yearsAvailable.[]', 'model.yearcolumn')
+  get yearsParam() {
+    const yearcolumn = this.get('model.dataset.yearcolumn');
+    const yearsAvailable = this.get('yearsAvailable').join(',');
+
+    return (yearsAvailable === "" && yearcolumn) ? null : `&years=${yearsAvailable}&year_col=${yearcolumn}`;
+  }
+
+
+  @computed('model', 'yearsParam')
   get download_link() {
-    return window.location.origin + '/csv?table=' + this.get('model.dataset.schemaname') + '.' + this.get('model.dataset.table_name') + '&database=' + this.get('model.dataset.db_name');
+    const {
+      schemaname,
+      table_name,
+      db_name,
+    } = this.get('model.dataset').getProperties('schemaname', 'table_name', 'db_name');
+
+    return `${config.host}/csv?table=${schemaname}.${table_name}&database=${db_name}${this.get('yearsParam')}`;
+  }
+
+
+  @computed('model', 'yearsParam')
+  get download_link_shapefile() {
+    const table_name = this.get('model.metadata.definition.DEFeatureClassInfo.Name')
+    const db_name = this.get('model.dataset.db_name');
+
+    return `${config.host}/shapefile?table=${table_name}&database=${db_name}${this.get('yearsParam')}`;
   }
 
 
   @computed('model')
   get download_link_metadata() {
     return this.metadata_query('csv');
-  }
-
-
-  @computed('model')
-  get download_link_shapefile() {
-    return window.location.origin + '/shapefile?table=' + this.get('model.metadata.definition.DEFeatureClassInfo.Name') + '&database=' + this.get('model.dataset.db_name');
   }
 
 
