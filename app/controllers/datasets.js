@@ -60,6 +60,7 @@ export default class extends Controller {
     const metadata = (this.get('formattedMetadata') || []).map(x => x.name);
     const fieldNames = Object.keys(this.get('model.raw_data.fields') || {});
     const fields = [];
+    const withoutMeta = [];
 
     fieldNames.forEach(field => {
       var fieldMetaIndex = metadata.indexOf(field);
@@ -67,9 +68,12 @@ export default class extends Controller {
       if (fieldMetaIndex !== -1) {
         fields[fieldMetaIndex] = field;
       }
+      else {
+        withoutMeta.push(field);
+      }
     });
 
-    return fields.filter(x => x);
+    return [...fields.filter(x => x), ...withoutMeta];
   }
 
   @computed('model.years_available.@each.selected')
@@ -86,8 +90,8 @@ export default class extends Controller {
       return this.get('model.raw_data.rows');
     }
 
-    if(this.get('model.years_available').length === 0) {
-      return this.get('model.raw_data.rows');
+    if((this.get('model.years_available') || []).length === 0) {
+      return this.get('model.raw_data.rows') || [];
     }
 
     return this.get('model.raw_data.rows').filter((row) => {
