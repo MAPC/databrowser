@@ -66,7 +66,7 @@ export default class extends Route {
           }
         })
         .catch(handleErrors)
-    ): null;
+    ) : [];
 
     return RSVP.hash({
       dataset,
