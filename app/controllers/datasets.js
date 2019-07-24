@@ -120,7 +120,7 @@ export default class extends Controller {
     const yearcolumn = this.get('model.dataset.yearcolumn');
     const yearsAvailable = this.get('yearsAvailable').join(',');
 
-    return (yearsAvailable === "" && yearcolumn) ? null : `&years=${yearsAvailable}&year_col=${yearcolumn}`;
+    return (yearsAvailable === "" && yearcolumn === null) ? "" : `&years=${yearsAvailable}&year_col=${yearcolumn}`;
   }
 
 
